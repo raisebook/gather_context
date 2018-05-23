@@ -7,6 +7,7 @@ defmodule GatherContext.Mixfile do
       version: "0.1.0",
       elixir: "~> 1.5",
       start_permanent: Mix.env == :prod,
+      preferred_cli_env: [espec: :test],
       deps: deps()
     ]
   end
@@ -23,7 +24,8 @@ defmodule GatherContext.Mixfile do
     [
       {:httpoison, "~> 1.0"},
       {:poison, "~> 3.1"},
-      {:apex, "~>1.2.0", only: :dev}
+      {:apex, "~>1.2.0", only: [:dev, :test]},
+      {:espec, "~> 1.5.1", only: :test}
     ]
   end
 end
