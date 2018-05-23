@@ -1,4 +1,6 @@
 defmodule GatherContext.API.Account do
+  alias GatherContext.API.Account
+
   defstruct id:       nil,
             name:     nil,
             slug:     nil,
@@ -25,7 +27,7 @@ defmodule GatherContext.API.Account do
   end
 
   defp build(json) do
-    %GatherContext.API.Account{
+    %Account{
       id: json["id"] |> String.to_integer,
       name: json["name"],
       slug: json["slug"],

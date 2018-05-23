@@ -1,4 +1,6 @@
 defmodule GatherContext.API.Me do
+  alias GatherContext.API.Me
+
   defstruct email: nil,
             first_name: nil,
             last_name: nil,
@@ -15,7 +17,7 @@ defmodule GatherContext.API.Me do
   end
 
   defp build(json) do
-    %GatherContext.API.Me{
+    %Me{
       email: json["email"],
       first_name: json["first_name"],
       last_name: json["last_name"],
