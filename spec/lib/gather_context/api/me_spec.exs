@@ -1,5 +1,6 @@
 defmodule GatherContext.API.MeSpec do
   use ESpec
+  alias GatherContext.API.{Client,Me}
 
   describe "get" do
     describe "builds a %GatherContext.API.ME object" do
@@ -14,9 +15,9 @@ defmodule GatherContext.API.MeSpec do
         "avatar" => "http://image-url.com"
       }}
 
-      let :client, do: %GatherContext.API.Client{get: fn(_) -> response() end}
+      let :client, do: %Client{get: fn(_) -> response() end}
 
-      subject do: GatherContext.API.Me.get(client()) |> elem(1)
+      subject do: Me.get(client()) |> elem(1)
 
       it "which has an email address" do
         expect(subject().email) |> to(eq("andrew@gathercontent.com"))
