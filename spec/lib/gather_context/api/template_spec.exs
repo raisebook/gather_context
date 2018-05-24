@@ -1,6 +1,6 @@
 defmodule GatherContext.API.TemplateSpec do
   use ESpec
-  alias GatherContext.API.{Template,TemplateUsage}
+  alias GatherContext.API.{Client, Template,TemplateUsage}
 
   let :obj, do: %{
     "id" => 123456,
@@ -19,15 +19,15 @@ defmodule GatherContext.API.TemplateSpec do
 
   describe "all" do
     let :response, do: {:ok, [obj()]}
-    let :client, do: %GatherContext.API.Client{get: fn(_) -> response() end}
-    subject do: (GatherContext.API.Template.all(client()) |> elem(1))
+    let :client, do: %Client{get: fn(_) -> response() end}
+    subject do: (Template.all(client()) |> elem(1))
 
     it "returns a List" do
       expect(subject() |> length) |> to(eq(1))
     end
 
     describe "builds a List of %GatherContext.API.Template objects" do
-      subject do: (GatherContext.API.Template.all(client()) |> elem(1) |> List.first)
+      subject do: (Template.all(client()) |> elem(1) |> List.first)
 
       it "which has an id" do
         expect(subject().id) |> to(eq(123456))
@@ -73,11 +73,11 @@ defmodule GatherContext.API.TemplateSpec do
 
   describe "get_account" do
     let :response, do: {:ok, obj()}
-    let :client, do: %GatherContext.API.Client{get: fn(_) -> response() end}
-    subject do: (GatherContext.API.Template.get_template(client(), 123456) |> elem(1))
+    let :client, do: %Client{get: fn(_) -> response() end}
+    subject do: (Template.get_template(client(), 123456) |> elem(1))
 
     describe "builds a %GatherContext.API.Template object" do
-      subject do: (GatherContext.API.Template.get_template(client(), 123456) |> elem(1))
+      subject do: (Template.get_template(client(), 123456) |> elem(1))
 
       it "which has an id" do
         expect(subject().id) |> to(eq(123456))

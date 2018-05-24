@@ -1,4 +1,5 @@
 defmodule GatherContext.API.Status do
+  alias GatherContext.API.{Project, Status}
   defstruct id: nil,
             is_default: false,
             position: nil,
@@ -7,7 +8,7 @@ defmodule GatherContext.API.Status do
             description: nil,
             can_edit: false
 
-  def all(client, %GatherContext.API.Project{id: project_id}) do
+  def all(client, %Project{id: project_id}) do
     with {:ok, results} <- client.get.("/projects/#{project_id}/statuses"),
          statuses <- results |> Enum.map(&build(&1))
     do
@@ -17,7 +18,7 @@ defmodule GatherContext.API.Status do
     end
   end
 
-  def get_status(client, %GatherContext.API.Project{id: project_id}, id) do
+  def get_status(client, %Project{id: project_id}, id) do
     with {:ok, result} <- client.get.("/projects/#{project_id}/statuses/#{id}"),
          status <- result |> build
     do
@@ -28,7 +29,7 @@ defmodule GatherContext.API.Status do
   end
 
   def build(json) do
-    %GatherContext.API.Status{
+    %Status{
       id: json["id"] |> String.to_integer,
       is_default: json["is_default"],
       position: json["position"] |> String.to_integer,
