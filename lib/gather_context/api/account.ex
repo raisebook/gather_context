@@ -1,10 +1,5 @@
 defmodule GatherContext.API.Account do
-  alias GatherContext.API.Account
-
-  defstruct id:       nil,
-            name:     nil,
-            slug:     nil,
-            timezone: nil
+  alias GatherContext.Types.Account
 
   def all(client) do
     with {:ok, results} <- client.get.("/accounts"),

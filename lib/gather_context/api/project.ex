@@ -1,5 +1,6 @@
 defmodule GatherContext.API.Project do
-  alias GatherContext.API.{Project,Account, Status}
+  alias GatherContext.API.{Project, Status}
+  alias GatherContext.Types.Account
 
   defstruct id: nil,
             name: nil,

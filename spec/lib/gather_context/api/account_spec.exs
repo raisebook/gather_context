@@ -20,7 +20,8 @@ end
 
 defmodule GatherContext.API.AccountSpec do
   use ESpec
-  alias GatherContext.API.{Client, Account}
+  alias GatherContext.API.Client
+  alias GatherContext.API.Account
 
   let :obj, do: %{
     "id" => "123456",

@@ -26,6 +26,10 @@ defmodule GatherContext.API.Item do
     end
   end
 
+  def all(client, project_id) when is_integer(project_id) do
+    all(client, %Project{id: project_id})
+  end
+
   def get_item(client, id) do
     with {:ok, result} <- client.get.("/items/#{id}"),
          item <- result |> build
@@ -42,7 +46,7 @@ defmodule GatherContext.API.Item do
       project_id: json["project_id"],
       parent_id: json["parent_id"],
       template_id: json["template_id"],
-      position: json["position"],
+      position: json["position"] |> String.to_integer,
       name: json["name"],
       config: json["config"] |> Access.get("data") |> Config.build(),
       notes: json["notes"],

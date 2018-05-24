@@ -30,7 +30,8 @@ defmodule SharedProject do
 end
 
 defmodule GatherContext.API.ProjectSpec do
-  alias GatherContext.API.{Client, Project, Account}
+  alias GatherContext.API.{Client, Project}
+  alias GatherContext.Types.Account
 
   use ESpec
 
