@@ -1,5 +1,7 @@
 defmodule GatherContext.API.Client do
   alias GatherContext.API.Client
+  alias HTTPoison.Response
+
   defstruct username: Application.fetch_env!(:gather_context, :username),
             api_key: Application.fetch_env!(:gather_context, :api_key),
             get: nil
@@ -17,10 +19,10 @@ defmodule GatherContext.API.Client do
 
   def get(endpoint, options) do
     case HTTPoison.get(url(endpoint), @headers, options) do
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} -> {:ok, parse_data(body)}
-      {:ok, %HTTPoison.Response{status_code: 400, body: body}} -> {:error, parse_error(body)}
-      {:ok, %HTTPoison.Response{status_code: 401}} -> {:unauthorized}
-      {:ok, %HTTPoison.Response{status_code: 404}} -> {:not_found}
+      {:ok, %Response{status_code: 200, body: body}} -> {:ok, parse_data(body)}
+      {:ok, %Response{status_code: 400, body: body}} -> {:error, parse_error(body)}
+      {:ok, %Response{status_code: 401}} -> {:unauthorized}
+      {:ok, %Response{status_code: 404}} -> {:not_found}
     end
   end
 
