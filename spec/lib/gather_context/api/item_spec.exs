@@ -117,7 +117,7 @@ end
 defmodule GatherContext.API.ItemSpec do
   use ESpec
   alias GatherContext.API.{Client, Item}
-  alias GatherContext.Types.{Status, Date, DueDate, Project}
+  alias GatherContext.Types.{Config, Status, Date, DueDate, Project}
 
   describe "all" do
     let :response, do: {:ok, [obj()]}
@@ -235,7 +235,7 @@ defmodule GatherContext.API.ItemSpec do
       "position" => "11",
       "name" => "Home",
       "notes" => "",
-      "config" => []
+      "config" => [],
       "type" => "item",
       "overdue" => true,
       "created_at" => %{
@@ -290,7 +290,7 @@ defmodule GatherContext.API.ItemSpec do
             template_id: nil,
             position: 11,
             name: "Home",
-            config: []
+            config: %Config{},
             notes: "",
             type: "item",
             overdue: true,
@@ -312,12 +312,12 @@ defmodule GatherContext.API.ItemSpec do
 
     describe "builds a %GatherContext.Types.Item object" do
       describe "when passes an Item" do
-        subject do: (Item.get_account(client(), GatherContext.Types.Item{id: 123456}) |> elem(1))
+        subject do: (Item.get_item(client(), %GatherContext.Types.Item{id: 123456}) |> elem(1))
         it_behaves_like(SharedItem)
       end
 
       describe "when passes an integer" do
-        subject do: (Item.get_account(client(), 123456) |> elem(1))
+        subject do: (Item.get_item(client(), 123456) |> elem(1))
         it_behaves_like(SharedItem)
       end
     end
