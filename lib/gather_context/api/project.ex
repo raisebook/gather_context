@@ -1,6 +1,6 @@
 defmodule GatherContext.API.Project do
-  alias GatherContext.API.{Project, Status}
-  alias GatherContext.Types.Account
+  alias GatherContext.API.Status
+  alias GatherContext.Types.{Account, Project}
 
   defstruct id: nil,
             name: nil,
@@ -35,7 +35,7 @@ defmodule GatherContext.API.Project do
   end
 
   def build(json) do
-    %GatherContext.API.Project{
+    %Project{
       id: json["id"],
       name: json["name"],
       account_id: json["account_id"],

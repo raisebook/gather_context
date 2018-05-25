@@ -1,5 +1,6 @@
 defmodule GatherContext.API.StatusSpec do
-  alias GatherContext.API.{Client, Project, Status}
+  alias GatherContext.API.{Client, Status}
+  alias GatherContext.Types.{Project}
   use ESpec
 
   let :obj, do: %{

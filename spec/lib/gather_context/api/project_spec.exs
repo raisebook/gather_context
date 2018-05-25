@@ -31,7 +31,7 @@ end
 
 defmodule GatherContext.API.ProjectSpec do
   alias GatherContext.API.{Client, Project}
-  alias GatherContext.Types.Account
+  alias GatherContext.Types
 
   use ESpec
 
@@ -94,14 +94,14 @@ defmodule GatherContext.API.ProjectSpec do
   describe "all" do
     let :response, do: {:ok, [response_object()]}
     let :client, do: %Client{get: fn(_) -> response() end}
-    subject do: (Project.all(client(), %Account{id: 123456}) |> elem(1))
+    subject do: (Project.all(client(), %Types.Account{id: 123456}) |> elem(1))
 
     it "returns a List" do
       expect(subject() |> length) |> to(eq(1))
     end
 
     describe "builds a List of %GatherContext.API.Project objects" do
-      subject do: (Project.all(client(), %Account{id: 123456}) |> elem(1) |> List.first)
+      subject do: (Project.all(client(), %Types.Account{id: 123456}) |> elem(1) |> List.first)
       it_behaves_like(SharedProject)
 
       describe "statuses" do
@@ -126,7 +126,7 @@ defmodule GatherContext.API.ProjectSpec do
       subject do: (Project.get_project(client(), %Project{id: 123456}) |> elem(1))
 
       describe "builds a %GatherContext.API.Account object" do
-        subject do: (Project.get_project(client(), %Project{id: 123456}) |> elem(1))
+        subject do: (Project.get_project(client(), %Types.Project{id: 123456}) |> elem(1))
         it_behaves_like(SharedProject)
 
         describe "statuses" do

@@ -56,7 +56,8 @@ end
 
 defmodule GatherContext.API.ItemSpec do
   use ESpec
-  alias GatherContext.API.{Client, Project, Item, Status, Date, DueDate}
+  alias GatherContext.API.{Client, Item}
+  alias GatherContext.Types.{Status, Date, DueDate, Project}
 
   describe "all" do
     let :response, do: {:ok, [obj()]}

@@ -1,6 +1,7 @@
 defmodule GatherContext.API.DueDateSpec do
   use ESpec
-  alias GatherContext.API.{Date, DueDate}
+  alias GatherContext.API.DueDate
+  alias GatherContext.Types.Date
 
   let obj: %{
     "status_id" => 123456,

@@ -1,13 +1,5 @@
 defmodule GatherContext.API.Me do
-  alias GatherContext.API.Me
-
-  defstruct email: nil,
-            first_name: nil,
-            last_name: nil,
-            timezone: nil,
-            language: nil,
-            gender: nil,
-            avatar: nil
+  alias GatherContext.Types.Me
 
   def get(client) do
     case client.get.("/me") do

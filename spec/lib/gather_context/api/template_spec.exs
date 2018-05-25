@@ -1,6 +1,7 @@
 defmodule GatherContext.API.TemplateSpec do
   use ESpec
-  alias GatherContext.API.{Client, Template,TemplateUsage}
+  alias GatherContext.API.{Client,Template}
+  alias GatherContext.Types.TemplateUsage
 
   let :obj, do: %{
     "id" => 123456,

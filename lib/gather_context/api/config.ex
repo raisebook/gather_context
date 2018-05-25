@@ -1,6 +1,5 @@
 defmodule GatherContext.API.Config do
-  alias GatherContext.API.Config
-  defstruct tabs: []
+  alias GatherContext.Types.Config
 
   def build(json) do
     %Config{}

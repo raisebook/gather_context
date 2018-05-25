@@ -1,9 +1,5 @@
 defmodule GatherContext.API.Date do
-  alias GatherContext.API.Date
-
-  defstruct date: nil,
-            timezone_type: nil,
-            timezone: nil
+  alias GatherContext.Types.Date
 
   def build(json) do
     %Date{

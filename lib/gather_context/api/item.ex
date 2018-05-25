@@ -1,22 +1,12 @@
 defmodule GatherContext.API.Item do
-  alias GatherContext.API.{Item, Project, Config, Date, Status, DueDate}
+  alias GatherContext.API.{Config, Date, DueDate, Status}
+  alias GatherContext.Types
 
-  defstruct id: nil,
-            project_id: nil,
-            parent_id: nil,
-            template_id: nil,
-            position: 0,
-            name: nil,
-            config: %Config{},
-            notes: nil,
-            type: "item",
-            overdue: false,
-            created_at: %Date{},
-            updated_at: %Date{},
-            status: %Status{},
-            due_dates: %DueDate{}
+  def all(client, project_id) when is_integer(project_id) do
+    all(client, %Types.Project{id: project_id})
+  end
 
-  def all(client, %Project{id: project_id}) do
+  def all(client, %Types.Project{id: project_id}) do
     with {:ok, results} <- client.get.("/items?project_id=#{project_id}"),
          items <- results |> Enum.map(&build(&1))
     do
@@ -24,10 +14,6 @@ defmodule GatherContext.API.Item do
     else
       error -> error
     end
-  end
-
-  def all(client, project_id) when is_integer(project_id) do
-    all(client, %Project{id: project_id})
   end
 
   def get_item(client, id) do
@@ -41,7 +27,7 @@ defmodule GatherContext.API.Item do
   end
 
   defp build(json) do
-    %Item{
+    %Types.Item{
       id: json["id"],
       project_id: json["project_id"],
       parent_id: json["parent_id"],

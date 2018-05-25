@@ -1,9 +1,6 @@
 defmodule GatherContext.API.DueDate do
-  alias GatherContext.API.{DueDate, Date}
-
-  defstruct status_id: nil,
-            overdue: false,
-            due_date: %Date{}
+  alias GatherContext.Types.DueDate
+  alias GatherContext.API.Date
 
   def build(json) do
     %DueDate{

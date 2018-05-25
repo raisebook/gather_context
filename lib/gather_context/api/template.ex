@@ -1,16 +1,5 @@
 defmodule GatherContext.API.Template do
-  alias GatherContext.API.{Template,TemplateUsage}
-
-  defstruct id: nil,
-            project_id: nil,
-            created_by: false,
-            updated_by: nil,
-            name: nil,
-            description: nil,
-            used_at: nil,
-            created_at: nil,
-            updated_at: nil,
-            usage: nil
+  alias GatherContext.Types.{Template,TemplateUsage}
 
   def all(client) do
     with {:ok, results} <- client.get.("/templates"),

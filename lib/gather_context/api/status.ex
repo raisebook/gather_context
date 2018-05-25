@@ -1,5 +1,5 @@
 defmodule GatherContext.API.Status do
-  alias GatherContext.API.{Project, Status}
+  alias GatherContext.Types.{Project, Status}
   defstruct id: nil,
             is_default: false,
             position: nil,
