@@ -54,6 +54,16 @@ defmodule GatherContext.API.Item do
     apply_template(client, %Item{id: id}, template_id)
   end
 
+  def save(client, %Item{id: id}, config) do
+    encoded = Config.encode(config)
+
+    client |> Client.post("/items/#{id}/save", URI.encode_query(%{config: encoded}))
+  end
+
+  def save(client, id, config) when is_integer(id) do
+    save(client, %Item{id: id}, config)
+  end
+
   defp build(json) do
     %Item{
       id: json["id"],

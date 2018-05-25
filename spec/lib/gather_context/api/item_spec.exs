@@ -386,4 +386,27 @@ defmodule GatherContext.API.ItemSpec do
       end
     end
   end
+
+  describe "save" do
+    let config: %Config{}
+    before do: allow(Client).to accept(:post, fn(%Client{}, _, _) -> {:ok} end)
+
+    describe "with item id as an integer" do
+      subject do: (Item.save(client(), 123456, config()))
+
+      it "saves the base64 encoded JSON object'" do
+        subject()
+        expect(Client) |> to(accepted(:post, [client(), "/items/123456/save", "config=W10%3D"]))
+      end
+    end
+
+    describe "with an %Item{}" do
+      subject do: (Item.save(client(), %GatherContext.Types.Item{id: 123456}, config()))
+
+      it "saves the base64 encoded JSON object'" do
+        subject()
+        expect(Client) |> to(accepted(:post, [client(), "/items/123456/save", "config=W10%3D"]))
+      end
+    end
+  end
 end
