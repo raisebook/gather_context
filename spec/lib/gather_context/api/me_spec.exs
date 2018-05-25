@@ -3,7 +3,7 @@ defmodule GatherContext.API.MeSpec do
   alias GatherContext.API.{Client,Me}
 
   describe "get" do
-    describe "builds a %GatherContext.API.ME object" do
+    describe "builds a %GatherContext.Types.Me object" do
 
       let :response, do: {:ok, %{
         "email" => "andrew@gathercontent.com",

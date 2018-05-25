@@ -27,7 +27,7 @@ defmodule GatherContext.API.TemplateSpec do
       expect(subject() |> length) |> to(eq(1))
     end
 
-    describe "builds a List of %GatherContext.API.Template objects" do
+    describe "builds a List of %GatherContext.Types.Template objects" do
       subject do: (Template.all(client()) |> elem(1) |> List.first)
 
       it "which has an id" do
@@ -77,7 +77,7 @@ defmodule GatherContext.API.TemplateSpec do
     let :client, do: %Client{get: fn(_) -> response() end}
     subject do: (Template.get_template(client(), 123456) |> elem(1))
 
-    describe "builds a %GatherContext.API.Template object" do
+    describe "builds a %GatherContext.Types.Template object" do
       subject do: (Template.get_template(client(), 123456) |> elem(1))
 
       it "which has an id" do

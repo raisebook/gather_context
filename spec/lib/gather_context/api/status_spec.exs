@@ -22,7 +22,7 @@ defmodule GatherContext.API.StatusSpec do
       expect(subject() |> length) |> to(eq(1))
     end
 
-    describe "builds a List of %GatherContext.API.Account objects" do
+    describe "builds a List of %GatherContext.Types.Account objects" do
       subject do: (Status.all(client(), %Project{id: 123456}) |> elem(1) |> List.first)
       before subject: subject(),
               id: 123456,
@@ -41,7 +41,7 @@ defmodule GatherContext.API.StatusSpec do
       let :client, do: %Client{get: fn(_) -> response() end}
       subject do: (Status.get_status(client(), %Project{id: 123456}, 123456) |> elem(1))
 
-      describe "builds a %GatherContext.API.Account object" do
+      describe "builds a %GatherContext.Types.Account object" do
         before subject: subject(),
                 id: 123456,
                 is_default: true,

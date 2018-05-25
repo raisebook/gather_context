@@ -56,7 +56,7 @@ defmodule GatherContext.API.AccountSpec do
     let :client, do: %Client{get: fn(_) -> response() end}
     subject do: (Account.get_account(client(), 123456) |> elem(1))
 
-    describe "builds a %GatherContext.API.Account object" do
+    describe "builds a %GatherContext.Types.Account object" do
       subject do: (Account.get_account(client(), 123456) |> elem(1))
       it_behaves_like(SharedAccount)
     end

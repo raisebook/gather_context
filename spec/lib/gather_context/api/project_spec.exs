@@ -100,7 +100,7 @@ defmodule GatherContext.API.ProjectSpec do
       expect(subject() |> length) |> to(eq(1))
     end
 
-    describe "builds a List of %GatherContext.API.Project objects" do
+    describe "builds a List of %GatherContext.Types.Project objects" do
       subject do: (Project.all(client(), %Types.Account{id: 123456}) |> elem(1) |> List.first)
       it_behaves_like(SharedProject)
 
