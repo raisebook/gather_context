@@ -46,6 +46,14 @@ defmodule GatherContext.API.Item do
     choose_status(client, %Item{id: id}, %GatherContext.Types.Status{id: status_id})
   end
 
+  def apply_template(client, %Item{id: id}, template_id) do
+    client |> Client.post("/items/#{id}/apply_template", URI.encode_query(%{template_id: template_id}))
+  end
+
+  def apply_template(client, id, template_id) when is_integer(id) do
+    apply_template(client, %Item{id: id}, template_id)
+  end
+
   defp build(json) do
     %Item{
       id: json["id"],

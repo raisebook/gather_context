@@ -326,6 +326,8 @@ defmodule GatherContext.API.ItemSpec do
   end
 
   describe "choose status" do
+    before do: allow(Client).to accept(:post, fn(%Client{}, _, _) -> {:ok} end)
+
     describe "with item id as an integer, and status_id as an integer" do
       subject do: (Item.choose_status(client(), 123456, 123457))
 
@@ -364,6 +366,8 @@ defmodule GatherContext.API.ItemSpec do
   end
 
   describe "apply_template" do
+    before do: allow(Client).to accept(:post, fn(%Client{}, _, _) -> {:ok} end)
+
     describe "with item id as an integer" do
       subject do: (Item.apply_template(client(), 123456, 123457))
 
@@ -373,10 +377,10 @@ defmodule GatherContext.API.ItemSpec do
       end
     end
 
-    describe "with a %Item{}" do
+    describe "with an %Item{}" do
       subject do: (Item.apply_template(client(), %GatherContext.Types.Item{id: 123456}, 123457))
 
-      it it "applies the template'" do do
+      it "applies the template'" do
         subject()
         expect(Client) |> to(accepted(:post, [client(), "/items/123456/apply_template", "template_id=123457"]))
       end
