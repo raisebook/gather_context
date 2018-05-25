@@ -169,10 +169,47 @@ defmodule GatherContext.API.ProjectSpec do
     end
   end
 
-  # describe "create" do
-  #   before do: allow(%Client) |> to(accept(:post, fn(_, _, _)))
-  #   subject do: (Project.create(client(), %Types.Account{id: 123456}, name(), type()))
+  describe "create" do
+    let account_id: 123456
+    let name: "Test Project"
+    let type: "website-build"
 
+    before do: allow(Client).to accept(:post, fn(_, _, _) -> nil end)
 
-  # end
+    describe "with an %Account{}, name, and valid type" do
+      subject do: (Project.create(client(), %Types.Account{id: 123456}, name(), type()))
+
+      it "creates the project" do
+        subject()
+        expect(Client) |> to(accepted(:post, [client(), "/projects", "account_id=123456&name=Test+Project&type=website-build"]))
+      end
+    end
+
+    describe "with an account_id as an integer, name, and valid type" do
+      subject do: (Project.create(client(), 123456, name(), type()))
+
+      it "creates the project" do
+        subject()
+        expect(Client) |> to(accepted(:post, [client(), "/projects", "account_id=123456&name=Test+Project&type=website-build"]))
+      end
+    end
+
+    describe "with an %Account{}, name, and no type" do
+      subject do: (Project.create(client(), %Types.Account{id: 123456}, name()))
+
+      it "creates the project categorizes as 'other'" do
+        subject()
+        expect(Client) |> to(accepted(:post, [client(), "/projects", "account_id=123456&name=Test+Project&type=other"]))
+      end
+    end
+
+    describe "with an account_id as an integer, name, and no type" do
+      subject do: (Project.create(client(), 123456, name()))
+
+      it "creates the project categorizes as 'other'" do
+        subject()
+        expect(Client) |> to(accepted(:post, [client(), "/projects", "account_id=123456&name=Test+Project&type=other"]))
+      end
+    end
+  end
 end
