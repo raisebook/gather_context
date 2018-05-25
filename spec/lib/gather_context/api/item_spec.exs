@@ -324,4 +324,42 @@ defmodule GatherContext.API.ItemSpec do
       end
     end
   end
+
+  describe "choose status" do
+    describe "with item id as an integer, and status_id as an integer" do
+      subject do: (Item.choose_status(client(), 123456, 123457))
+
+      it "creates the project categorizes as 'other'" do
+        subject()
+        expect(Client) |> to(accepted(:post, [client(), "/items/123456/choose_status", "status_id=123457"]))
+      end
+    end
+
+    describe "with a %Item{}, and %Status{}" do
+      subject do: (Item.choose_status(client(), %GatherContext.Types.Item{id: 123456}, %GatherContext.Types.Status{id: 123457}))
+
+      it "creates the project categorizes as 'other'" do
+        subject()
+        expect(Client) |> to(accepted(:post, [client(), "/items/123456/choose_status", "status_id=123457"]))
+      end
+    end
+
+    describe "with a %Item{}, and status_id is an integer" do
+      subject do: (Item.choose_status(client(), %GatherContext.Types.Item{id: 123456}, 123457))
+
+      it "creates the project categorizes as 'other'" do
+        subject()
+        expect(Client) |> to(accepted(:post, [client(), "/items/123456/choose_status", "status_id=123457"]))
+      end
+    end
+
+    describe "with a id is an integer, and %Status{}" do
+      subject do: (Item.choose_status(client(), 123456, %GatherContext.Types.Status{id: 123457}))
+
+      it "creates the project categorizes as 'other'" do
+        subject()
+        expect(Client) |> to(accepted(:post, [client(), "/items/123456/choose_status", "status_id=123457"]))
+      end
+    end
+  end
 end

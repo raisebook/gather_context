@@ -30,6 +30,22 @@ defmodule GatherContext.API.Item do
     end
   end
 
+  def choose_status(client, %Item{id: id}, %GatherContext.Types.Status{id: status_id}) do
+    client |> Client.post("/items/#{id}/choose_status", URI.encode_query(%{status_id: status_id}))
+  end
+
+  def choose_status(client, %Item{id: id}, status_id) when is_integer(status_id) do
+    choose_status(client, %Item{id: id}, %GatherContext.Types.Status{id: status_id})
+  end
+
+  def choose_status(client, id, %GatherContext.Types.Status{id: status_id}) when is_integer(id) do
+    choose_status(client, %Item{id: id}, %GatherContext.Types.Status{id: status_id})
+  end
+
+  def choose_status(client, id, status_id) when is_integer(id) and is_integer(status_id) do
+    choose_status(client, %Item{id: id}, %GatherContext.Types.Status{id: status_id})
+  end
+
   defp build(json) do
     %Item{
       id: json["id"],
