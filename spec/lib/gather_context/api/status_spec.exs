@@ -3,7 +3,7 @@ defmodule GatherContext.API.StatusSpec do
   alias GatherContext.Types.{Project}
   use ESpec
 
-  let :obj, do: %{
+  let obj: %{
     "id" => "123456",
     "is_default" => true,
     "position" => "1",
@@ -13,9 +13,11 @@ defmodule GatherContext.API.StatusSpec do
     "can_edit" => true
   }
 
+  let :client, do: %Client{}
+  before do: allow(Client).to accept(:get, fn(%Client{}, _) -> response() end)
+
   describe "all" do
     let :response, do: {:ok, [obj()]}
-    let :client, do: %Client{get: fn(_) -> response() end}
     subject do: (Status.all(client(), %Project{id: 123456}) |> elem(1))
 
     it "returns a List" do
@@ -38,7 +40,6 @@ defmodule GatherContext.API.StatusSpec do
 
     describe "get_account" do
       let :response, do: {:ok, obj()}
-      let :client, do: %Client{get: fn(_) -> response() end}
       subject do: (Status.get_status(client(), %Project{id: 123456}, 123456) |> elem(1))
 
       describe "builds a %GatherContext.Types.Account object" do

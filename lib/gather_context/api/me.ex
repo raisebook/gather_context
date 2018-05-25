@@ -1,8 +1,9 @@
 defmodule GatherContext.API.Me do
+  alias GatherContext.API.Client
   alias GatherContext.Types.Me
 
   def get(client) do
-    case client.get.("/me") do
+    case client |> Client.get("/me") do
       {:ok, me} -> {:ok, build(me)}
       error -> error
     end

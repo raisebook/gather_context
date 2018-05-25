@@ -1,5 +1,5 @@
 defmodule GatherContext.API.Project do
-  alias GatherContext.API.Status
+  alias GatherContext.API.{Client, Status}
   alias GatherContext.Types.{Account, Project}
 
   defstruct id: nil,
@@ -11,7 +11,7 @@ defmodule GatherContext.API.Project do
             statuses: []
 
   def all(client, %Account{id: account_id}) do
-    with {:ok, results} <- client.get.("/projects/?account_id=#{account_id}"),
+    with {:ok, results} <- client |> Client.get("/projects/?account_id=#{account_id}"),
          projects <- results |> Enum.map(&build(&1))
     do
       {:ok, projects}
@@ -25,13 +25,25 @@ defmodule GatherContext.API.Project do
   end
 
   def get_project(client, %Project{id: id}) do
-    with {:ok, result} <- client.get.("/projects/#{id}"),
+    with {:ok, result} <- client |> Client.get("/projects/#{id}"),
          project <- result |> build
     do
       {:ok, project}
     else
       error -> error
     end
+  end
+
+  def create(client, account_id, name, type) when is_integer(account_id) do
+    create(client, %Account{id: account_id}, name, type)
+  end
+
+  def create(client, account, name) do
+    create(client,account, name, "other")
+  end
+
+  def create(client, %Account{id: account_id}, name, type) when type in ["website-build", "ongoing-website-content", "marketing-editorial-content", "email-marketing-content", "other"] do
+    client |> Client.post("/projects", URI.encode_query(%{account_id: account_id, name: name, type: type}))
   end
 
   def build(json) do

@@ -18,9 +18,11 @@ defmodule GatherContext.API.TemplateSpec do
     }
   }
 
+  before do: allow(Client).to accept(:get, fn(%Client{}, _) -> response() end)
+
   describe "all" do
     let :response, do: {:ok, [obj()]}
-    let :client, do: %Client{get: fn(_) -> response() end}
+    let :client, do: %Client{}
     subject do: (Template.all(client()) |> elem(1))
 
     it "returns a List" do
@@ -74,7 +76,7 @@ defmodule GatherContext.API.TemplateSpec do
 
   describe "get_account" do
     let :response, do: {:ok, obj()}
-    let :client, do: %Client{get: fn(_) -> response() end}
+    let :client, do: %Client{}
     subject do: (Template.get_template(client(), 123456) |> elem(1))
 
     describe "builds a %GatherContext.Types.Template object" do

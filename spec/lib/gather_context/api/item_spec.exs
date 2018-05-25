@@ -119,9 +119,10 @@ defmodule GatherContext.API.ItemSpec do
   alias GatherContext.API.{Client, Item}
   alias GatherContext.Types.{Config, Status, Date, DueDate, Project}
 
+  let client: %Client{}
+  before do: allow(Client).to accept(:get, fn(%Client{}, _) -> response() end)
+
   describe "all" do
-    let :response, do: {:ok, [obj()]}
-    let :client, do: %Client{get: fn(_) -> response() end}
     subject do: (Item.all(client(), %Project{id: 123456}) |> elem(1))
 
     let :obj, do: %{
@@ -179,6 +180,8 @@ defmodule GatherContext.API.ItemSpec do
       }
     }
 
+    let :response, do: {:ok, [obj()]}
+
     before subject: subject(),
             id: 123456,
             project_id: 123456,
@@ -224,7 +227,6 @@ defmodule GatherContext.API.ItemSpec do
 
   describe "get_item" do
     let :response, do: {:ok, obj()}
-    let :client, do: %Client{get: fn(_) -> response() end}
     subject do: (Item.get_item(client(), 123456) |> elem(1))
 
     let :obj, do: %{

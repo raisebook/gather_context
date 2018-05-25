@@ -19,7 +19,8 @@ defmodule GatherContext.API.FileSpec do
         "updated_at" => "2015-12-10 18:49:17"
       }]}
 
-      let :client, do: %Client{get: fn(_) -> response() end}
+      let :client, do: %Client{}
+      before do: allow(Client).to accept(:get, fn(%Client{}, _) -> response() end)
 
       subject do: File.get(client(), %Item{id: 1}) |> elem(1) |> List.first
 

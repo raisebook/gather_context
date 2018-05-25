@@ -66,6 +66,9 @@ defmodule GatherContext.API.ProjectSpec do
     }
   }
 
+  let client: %Client{}
+  before do: allow(Client).to accept(:get, fn(%Client{}, _) -> response() end)
+
   before subject: subject(),
           id: 123456,
           name: "Example Project",
@@ -93,7 +96,6 @@ defmodule GatherContext.API.ProjectSpec do
 
   describe "all" do
     let :response, do: {:ok, [response_object()]}
-    let :client, do: %Client{get: fn(_) -> response() end}
     subject do: (Project.all(client(), %Types.Account{id: 123456}) |> elem(1))
 
     it "returns a List" do
@@ -122,7 +124,6 @@ defmodule GatherContext.API.ProjectSpec do
   describe "get_account" do
     describe "when passing in a project" do
       let :response, do: {:ok, response_object()}
-      let :client, do: %Client{get: fn(_) -> response() end}
       subject do: (Project.get_project(client(), %Project{id: 123456}) |> elem(1))
 
       describe "builds a %GatherContext.API.Account object" do
@@ -146,7 +147,6 @@ defmodule GatherContext.API.ProjectSpec do
 
     describe "when passing in project_id" do
       let :response, do: {:ok, response_object()}
-      let :client, do: %Client{get: fn(_) -> response() end}
       subject do: (Project.get_project(client(), 123456) |> elem(1))
 
       describe "builds a %GatherContext.API.Account object" do
@@ -168,4 +168,11 @@ defmodule GatherContext.API.ProjectSpec do
       end
     end
   end
+
+  # describe "create" do
+  #   before do: allow(%Client) |> to(accept(:post, fn(_, _, _)))
+  #   subject do: (Project.create(client(), %Types.Account{id: 123456}, name(), type()))
+
+
+  # end
 end

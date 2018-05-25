@@ -1,8 +1,9 @@
 defmodule GatherContext.API.File do
+  alias GatherContext.API.Client
   alias GatherContext.Types.{File, Item}
 
   def get(client, %Item{id: item_id}) do
-    case client.get.("/items/#{item_id}/files") do
+    case client |> Client.get("/items/#{item_id}/files") do
       {:ok, files} -> {:ok, files |> Enum.map(&build(&1))}
       error -> error
     end

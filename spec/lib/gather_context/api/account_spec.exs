@@ -23,12 +23,16 @@ defmodule GatherContext.API.AccountSpec do
   alias GatherContext.API.Client
   alias GatherContext.API.Account
 
+  let client: %Client{}
+
   let :obj, do: %{
     "id" => "123456",
     "name" => "Example",
     "slug" => "example",
     "timezone" => "UTC"
   }
+
+  before do: allow(Client).to accept(:get, fn(%Client{}, _) -> response() end)
 
   before subject: subject(),
           id: 123456,
@@ -38,7 +42,6 @@ defmodule GatherContext.API.AccountSpec do
 
   describe "all" do
     let :response, do: {:ok, [obj()]}
-    let :client, do: %Client{get: fn(_) -> response() end}
     subject do: (Account.all(client()) |> elem(1))
 
     it "returns a List" do
@@ -53,7 +56,6 @@ defmodule GatherContext.API.AccountSpec do
 
   describe "get_account" do
     let :response, do: {:ok, obj()}
-    let :client, do: %Client{get: fn(_) -> response() end}
     subject do: (Account.get_account(client(), 123456) |> elem(1))
 
     describe "builds a %GatherContext.Types.Account object" do

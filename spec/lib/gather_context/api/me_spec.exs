@@ -15,7 +15,8 @@ defmodule GatherContext.API.MeSpec do
         "avatar" => "http://image-url.com"
       }}
 
-      let :client, do: %Client{get: fn(_) -> response() end}
+      let :client, do: %Client{}
+      before do: allow(Client).to accept(:get, fn(%Client{}, _) -> response() end)
 
       subject do: Me.get(client()) |> elem(1)
 

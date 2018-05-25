@@ -1,8 +1,9 @@
 defmodule GatherContext.API.Account do
+  alias GatherContext.API.Client
   alias GatherContext.Types.Account
 
   def all(client) do
-    with {:ok, results} <- client.get.("/accounts"),
+    with {:ok, results} <- client |> Client.get("/accounts"),
          accounts <- results |> Enum.map(&build(&1))
     do
       {:ok, accounts}
@@ -12,7 +13,7 @@ defmodule GatherContext.API.Account do
   end
 
   def get_account(client, id) do
-    with {:ok, result} <- client.get.("/accounts/#{id}"),
+    with {:ok, result} <- client |> Client.get("/accounts/#{id}"),
          account <- result |> build
     do
       {:ok, account}

@@ -4,22 +4,31 @@ defmodule GatherContext.API.Client do
 
   defstruct username: Application.fetch_env!(:gather_context, :username),
             api_key: Application.fetch_env!(:gather_context, :api_key),
-            get: nil
+            get: nil, post: nil
 
   @headers %{"Content-type" => "application/json", "Accept" => "application/vnd.gathercontent.v0.5+json"}
 
   def new(client = %Client{}) do
-    options = [hackney: [basic_auth: {client.username, client.api_key}]]
-    client |> Map.merge(%Client{get: fn(url) -> Client.get(url, options) end})
+    client
   end
 
   def new() do
     new(%Client{})
   end
 
-  def get(endpoint, options) do
-    case HTTPoison.get(url(endpoint), @headers, options) do
+  def get(client, endpoint) do
+    case HTTPoison.get(url(endpoint), @headers, options(client)) do
       {:ok, %Response{status_code: 200, body: body}} -> {:ok, parse_data(body)}
+      {:ok, %Response{status_code: 400, body: body}} -> {:error, parse_error(body)}
+      {:ok, %Response{status_code: 401}} -> {:unauthorized}
+      {:ok, %Response{status_code: 404}} -> {:not_found}
+    end
+  end
+
+  def post(client, endpoint, data) do
+    case HTTPoison.post(url(endpoint), data, @headers, options(client)) do
+      {:ok, %Response{status_code: 200}} -> {:ok}
+      {:ok, %Response{status_code: 201}} -> {:ok}
       {:ok, %Response{status_code: 400, body: body}} -> {:error, parse_error(body)}
       {:ok, %Response{status_code: 401}} -> {:unauthorized}
       {:ok, %Response{status_code: 404}} -> {:not_found}
@@ -46,5 +55,9 @@ defmodule GatherContext.API.Client do
   defp parse_error(body) do
     parse(body)
     |> Access.get("error")
+  end
+
+  defp options(%Client{username: username, api_key: api_key}) do
+    [hackney: [basic_auth: {username, api_key}]]
   end
 end
