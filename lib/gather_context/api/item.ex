@@ -30,6 +30,26 @@ defmodule GatherContext.API.Item do
     end
   end
 
+  def create(client, project, name) do
+    create(client, project, name, [])
+  end
+
+  def create(client, %Project{id: project_id}, name, optionals) do
+    query = [project_id: project_id, name: name] ++ optionals
+      |> Enum.reject(&is_nil/1)
+
+    query = case query |> Access.get(:config) do
+      nil -> query
+      config -> query |> List.keyreplace(:config, 0, {:config, Config.encode(config)})
+    end
+
+    client |> Client.post("/items", URI.encode_query(query))
+  end
+
+  def create(client, project_id, name, optionals) when is_integer(project_id) do
+    create(client, project_id, name, optionals)
+  end
+
   def choose_status(client, %Item{id: id}, %GatherContext.Types.Status{id: status_id}) do
     client |> Client.post("/items/#{id}/choose_status", URI.encode_query(%{status_id: status_id}))
   end

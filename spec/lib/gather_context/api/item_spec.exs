@@ -328,65 +328,56 @@ defmodule GatherContext.API.ItemSpec do
   describe "create" do
     before do: allow(Client).to accept(:post, fn(%Client{}, _, _) -> {:ok} end)
 
-    # describe "with project id as an integer" do
-    #   subject do: (Item.save(client(), 123456, config()))
-
-    #   it "saves the base64 encoded JSON object'" do
-    #     subject()
-    #     expect(Client) |> to(accepted(:post, [client(), "/items/123456/save", "config=W10%3D"]))
-    #   end
-    # end
-
     describe "with an %Project{}" do
       describe "with no parent_id" do
-        subject do: (Item.create(client(), %GatherContext.Types.Project{id: 123456}, "Test Project")))
+        subject do: (Item.create(client(), %GatherContext.Types.Project{id: 123456}, "Test Project"))
 
-        it "saves the base64 encoded JSON object'" do
+        it "saves the base64 encoded JSON object" do
           subject()
           expect(Client) |> to(accepted(:post, [client(), "/items", "project_id=123456&name=Test+Project"]))
         end
       end
 
       describe "with a parent_id" do
-        subject do: (Item.create(client(), %GatherContext.Types.Project{id: 123456}, "Test Project", parent_id: parent_id))
+        subject do: (Item.create(client(), %GatherContext.Types.Project{id: 123456}, "Test Project", parent_id: 123457))
 
-        it "saves the base64 encoded JSON object'" do
+        it "saves the base64 encoded JSON object" do
           subject()
           expect(Client) |> to(accepted(:post, [client(), "/items", "project_id=123456&name=Test+Project&parent_id=123457"]))
         end
       end
 
       describe "with no template_id" do
-        subject do: (Item.create(client(), %GatherContext.Types.Project{id: 123456}, "Test Project")))
+        subject do: (Item.create(client(), %GatherContext.Types.Project{id: 123456}, "Test Project"))
 
-        it "saves the base64 encoded JSON object'" do
+        it "saves the base64 encoded JSON object" do
           subject()
           expect(Client) |> to(accepted(:post, [client(), "/items", "project_id=123456&name=Test+Project"]))
         end
       end
 
       describe "with a template_id" do
-        subject do: (Item.create(client(), %GatherContext.Types.Project{id: 123456}, "Test Project", template_id: template_id))
+        subject do: (Item.create(client(), %GatherContext.Types.Project{id: 123456}, "Test Project", template_id: 123457))
 
-        it "saves the base64 encoded JSON object'" do
+        it "saves the base64 encoded JSON object" do
           subject()
           expect(Client) |> to(accepted(:post, [client(), "/items", "project_id=123456&name=Test+Project&template_id=123457"]))
         end
       end
 
       describe "with no config" do
-        subject do: (Item.create(client(), %GatherContext.Types.Project{id: 123456}, "Test Project")))
+        subject do: (Item.create(client(), %GatherContext.Types.Project{id: 123456}, "Test Project"))
 
-        it "saves the base64 encoded JSON object'" do
+        it "saves the base64 encoded JSON object" do
           subject()
           expect(Client) |> to(accepted(:post, [client(), "/items", "project_id=123456&name=Test+Project"]))
         end
       end
 
       describe "with a config" do
-        subject do: (Item.create(client(), %GatherContext.Types.Project{id: 123456}, "Test Project", config: config))
+        subject do: (Item.create(client(), %GatherContext.Types.Project{id: 123456}, "Test Project", config: %Config{}))
 
-        it "saves the base64 encoded JSON object'" do
+        it "saves the base64 encoded JSON object" do
           subject()
           expect(Client) |> to(accepted(:post, [client(), "/items", "project_id=123456&name=Test+Project&config=W10%3D"]))
         end
