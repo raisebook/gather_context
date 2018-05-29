@@ -1,4 +1,4 @@
-defprotocol GatherContext.Types.Config.ElementEncode do
+defprotocol GatherContext.Element do
   @doc "Encodes the Element, ready for transmission to GatherContent"
   def encode(data)
 end
@@ -60,9 +60,8 @@ defmodule GatherContext.Types.Config.Element do
   end
 end
 
-# TODO: Implement ElementEncode for lists, and maybe maps?
-# defimpl GatherContext.Types.Config.ElementEncode, for: List do
-#   def encode(data) do
-
-#   end
-# end
+defimpl GatherContext.Element, for: List do
+  def encode(data) do
+    data |> Enum.map(&GatherContext.Element.encode(&1))
+  end
+end

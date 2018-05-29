@@ -12,3 +12,9 @@ defmodule GatherContext.Types.Config.ChoiceCheckbox do
     })
   end
 end
+
+defimpl GatherContext.Element, for: GatherContext.Types.Config.ChoiceCheckbox do
+  def encode(data) do
+    GatherContext.Types.Config.ChoiceCheckbox.encode(data)
+  end
+end

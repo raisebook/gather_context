@@ -10,3 +10,9 @@ defmodule GatherContext.Types.Config.Files do
     |> Element.encode
   end
 end
+
+defimpl GatherContext.Element, for: GatherContext.Types.Config.Files do
+  def encode(data) do
+    GatherContext.Types.Config.Files.encode(data)
+  end
+end

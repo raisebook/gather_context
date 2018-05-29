@@ -15,6 +15,12 @@ defmodule GatherContext.Types.Config.Tab do
   end
 
   def encode(%GatherContext.Types.Config.Tab{name: name, label: label, hidden: hidden, elements: elements}) do
-    %{type: "tab", name: name, label: label, hidden: hidden, elements: elements}
+    %{type: "tab", name: name, label: label, hidden: hidden, elements: GatherContext.Element.encode(elements)}
+  end
+end
+
+defimpl GatherContext.Element, for: GatherContext.Types.Config.Tab do
+  def encode(data) do
+    GatherContext.Types.Config.Tab.encode(data)
   end
 end

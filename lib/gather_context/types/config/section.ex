@@ -15,3 +15,9 @@ defmodule GatherContext.Types.Config.Section do
     %{type: "section", name: name, title: title, subtitle: subtitle}
   end
 end
+
+defimpl GatherContext.Element, for: GatherContext.Types.Config.Section do
+  def encode(data) do
+    GatherContext.Types.Config.Section.encode(data)
+  end
+end

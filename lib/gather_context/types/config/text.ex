@@ -27,3 +27,9 @@ defmodule GatherContext.Types.Config.Text do
     })
   end
 end
+
+defimpl GatherContext.Element, for: GatherContext.Types.Config.Text do
+  def encode(data) do
+    GatherContext.Types.Config.Text.encode(data)
+  end
+end

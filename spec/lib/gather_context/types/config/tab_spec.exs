@@ -2,12 +2,16 @@ defmodule GatherContext.Types.Config.TabSpec do
   use ESpec
 
   describe "encode" do
-    alias GatherContext.Types.Config.Tab
+    alias GatherContext.Types.Config.{Section,Tab}
 
     let name: "label"
     let label: "Content"
     let hidden: false
-    let elements: []
+
+    let section: %Section{name: "el3", title: "Title"}
+    let elements: [
+      section()
+    ]
 
     let element: %Tab{name: name(), label: label(), hidden: hidden(), elements: elements()}
 
@@ -58,7 +62,7 @@ defmodule GatherContext.Types.Config.TabSpec do
     end
 
     it "encodes elements" do
-      expect(subject()[:elements]) |> to(eq(elements()))
+      expect(subject()[:elements]) |> to(eq([%{type: "section", name: "el3", title: "Title", subtitle: ""}]))
     end
 
     describe "a default object" do
