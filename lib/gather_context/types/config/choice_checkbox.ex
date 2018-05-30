@@ -4,11 +4,15 @@ defmodule GatherContext.Types.Config.ChoiceCheckbox do
 
   fields [:options]
 
+  def encode(%GatherContext.Types.Config.ChoiceCheckbox{options: options}) when length(options) == 0 do
+    raise ArgumentError, message: "You need to supply at least one option"
+  end
+
   def encode(data = %GatherContext.Types.Config.ChoiceCheckbox{}) do
     data
     |> GatherContext.Types.Config.Element.encode
     |> Map.merge(%{
-      options: data.options
+      options: GatherContext.Element.encode(data.options)
     })
   end
 end
