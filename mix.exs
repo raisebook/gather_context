@@ -8,7 +8,11 @@ defmodule GatherContext.Mixfile do
       elixir: "~> 1.5",
       start_permanent: Mix.env == :prod,
       preferred_cli_env: [espec: :test],
-      deps: deps()
+      deps: deps(),
+
+      name: "GatherContext",
+      source_url: "https://github.com/raisebook/gather_context",
+      docs: [main: "GatherContext", extras: ["README.md"]]
     ]
   end
 
@@ -25,7 +29,8 @@ defmodule GatherContext.Mixfile do
       {:httpoison, "~> 1.0"},
       {:poison, "~> 3.1"},
       {:apex, "~>1.2.0", only: [:dev, :test]},
-      {:espec, "~> 1.5.1", only: :test}
+      {:espec, "~> 1.5.1", only: :test},
+      {:ex_doc, "~> 0.16", only: :dev, runtime: false}
     ]
   end
 end
