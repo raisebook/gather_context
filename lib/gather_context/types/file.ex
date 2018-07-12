@@ -5,19 +5,29 @@ defmodule GatherContext.Types.File do
     Example
     -------
       %GatherContext.Types.File{
-        status_id: 123456,
-        overdue: true,
-        due_date: %GatherContext.Types.Date{
-          date: "2015-07-31 10:58:12.000000",
-          timezone_type: 3,
-          timezone: "UTC"
-        }
+        id: 1,
+        user_id: 1,
+        item_id: 1,
+        field: "abc123",
+        type: "1",
+        url: "http://link.to/filename.png",
+        filename: "original.png",
+        size: 123456,
+        created_at: "2015-12-10 18:49:17",
+        updated_at: "2015-12-10 18:49:17"
       }
   """
   @type t :: %__MODULE__{
-    status_id: integer(),
-    overdue: boolean(),
-    due_date: GatherContext.Types.Date.t
+    id: integer(),
+    user_id: integer(),
+    item_id: integer(),
+    field: binary(),
+    type: binary(),
+    url: binary(),
+    filename: binary(),
+    size: integer(),
+    created_at: binary(),
+    updated_at: binary()
   }
   defstruct id: nil,
             user_id: nil,
