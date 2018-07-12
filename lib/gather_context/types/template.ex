@@ -4,19 +4,20 @@ defmodule GatherContext.Types.Template do
 
     Example
     -------
-    %GatherContext.Types.Template{
-      id: 123456,
-      project_id: 123456,
-      created_by: 123456,
-      updated_by: 123456,
-      name: "Blog Theme",
-      description: "Blog theme",
-      config: %GatherContext.Types.Config{},
-      used_at: "2015-08-26 17:03:20",
-      created_at: 1440604320,
-      updated_at: 1440608600,
-      usage: %GatherContext.Types.TemplateUsage{
-        item_count: 1
+      %GatherContext.Types.Template{
+        id: 123456,
+        project_id: 123456,
+        created_by: 123456,
+        updated_by: 123456,
+        name: "Blog Theme",
+        description: "Blog theme",
+        config: %GatherContext.Types.Config{},
+        used_at: "2015-08-26 17:03:20",
+        created_at: 1440604320,
+        updated_at: 1440608600,
+        usage: %GatherContext.Types.TemplateUsage{
+          item_count: 1
+        }
       }
   """
   @type t :: %__MODULE__{
