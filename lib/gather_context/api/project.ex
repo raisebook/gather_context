@@ -45,7 +45,7 @@ defmodule GatherContext.API.Project do
 
   def create(client, %Account{id: account_id}, name, type) when type in ["website-build", "ongoing-website-content", "marketing-editorial-content", "email-marketing-content", "other"] do
     case client |> Client.post("/projects", %{account_id: account_id, name: name, type: type} |> Poison.encode!) do
-      {:ok, location} -> {:ok, location |> String.split("/") |> List.last }
+      {:ok, location} -> {:ok, location |> String.split("/") |> List.last |> String.to_integer }
       error -> error
     end
   end
