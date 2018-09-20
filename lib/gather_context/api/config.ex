@@ -1,5 +1,6 @@
 defmodule GatherContext.API.Config do
   alias GatherContext.Types.Config
+  alias GatherContext.Element
 
   def build(_json) do
     %Config{}
@@ -7,6 +8,7 @@ defmodule GatherContext.API.Config do
 
   def encode(config) do
     config.tabs
+    |> Element.encode
     |> Poison.encode!
     |> Base.encode64()
   end
