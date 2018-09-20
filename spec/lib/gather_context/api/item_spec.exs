@@ -334,7 +334,7 @@ defmodule GatherContext.API.ItemSpec do
 
         it "saves the base64 encoded JSON object" do
           subject()
-          expect(Client) |> to(accepted(:post, [client(), "/items", "project_id=123456&name=Test+Project"]))
+          expect(Client) |> to(accepted(:post, [client(), "/items", %{project_id: 123456, name: "Test Project"} |> Poison.encode!]))
         end
       end
 
@@ -343,7 +343,7 @@ defmodule GatherContext.API.ItemSpec do
 
         it "saves the base64 encoded JSON object" do
           subject()
-          expect(Client) |> to(accepted(:post, [client(), "/items", "project_id=123456&name=Test+Project&parent_id=123457"]))
+          expect(Client) |> to(accepted(:post, [client(), "/items", %{project_id: 123456, name: "Test Project", parent_id: 123457} |> Poison.encode!]))
         end
       end
 
@@ -352,7 +352,7 @@ defmodule GatherContext.API.ItemSpec do
 
         it "saves the base64 encoded JSON object" do
           subject()
-          expect(Client) |> to(accepted(:post, [client(), "/items", "project_id=123456&name=Test+Project"]))
+          expect(Client) |> to(accepted(:post, [client(), "/items", %{project_id: 123456, name: "Test Project"} |> Poison.encode!]))
         end
       end
 
@@ -361,7 +361,7 @@ defmodule GatherContext.API.ItemSpec do
 
         it "saves the base64 encoded JSON object" do
           subject()
-          expect(Client) |> to(accepted(:post, [client(), "/items", "project_id=123456&name=Test+Project&template_id=123457"]))
+          expect(Client) |> to(accepted(:post, [client(), "/items", %{project_id: 123456, name: "Test Project", template_id: 123457} |> Poison.encode!]))
         end
       end
 
@@ -370,7 +370,7 @@ defmodule GatherContext.API.ItemSpec do
 
         it "saves the base64 encoded JSON object" do
           subject()
-          expect(Client) |> to(accepted(:post, [client(), "/items", "project_id=123456&name=Test+Project"]))
+          expect(Client) |> to(accepted(:post, [client(), "/items", %{project_id: 123456, name: "Test Project"} |> Poison.encode!]))
         end
       end
 
@@ -379,7 +379,7 @@ defmodule GatherContext.API.ItemSpec do
 
         it "saves the base64 encoded JSON object" do
           subject()
-          expect(Client) |> to(accepted(:post, [client(), "/items", "project_id=123456&name=Test+Project&config=W10%3D"]))
+          expect(Client) |> to(accepted(:post, [client(), "/items", %{project_id: 123456, name: "Test Project", config: "W10="} |> Poison.encode!]))
         end
       end
     end
@@ -393,7 +393,7 @@ defmodule GatherContext.API.ItemSpec do
 
       it "chooses the status" do
         subject()
-        expect(Client) |> to(accepted(:post, [client(), "/items/123456/choose_status", "status_id=123457"]))
+        expect(Client) |> to(accepted(:post, [client(), "/items/123456/choose_status", %{status_id: 123457} |> Poison.encode!]))
       end
     end
 
@@ -402,7 +402,7 @@ defmodule GatherContext.API.ItemSpec do
 
       it "chooses the status" do
         subject()
-        expect(Client) |> to(accepted(:post, [client(), "/items/123456/choose_status", "status_id=123457"]))
+        expect(Client) |> to(accepted(:post, [client(), "/items/123456/choose_status", %{status_id: 123457} |> Poison.encode!]))
       end
     end
 
@@ -411,7 +411,7 @@ defmodule GatherContext.API.ItemSpec do
 
       it "chooses the status" do
         subject()
-        expect(Client) |> to(accepted(:post, [client(), "/items/123456/choose_status", "status_id=123457"]))
+        expect(Client) |> to(accepted(:post, [client(), "/items/123456/choose_status", %{status_id: 123457} |> Poison.encode!]))
       end
     end
 
@@ -420,7 +420,7 @@ defmodule GatherContext.API.ItemSpec do
 
       it "chooses the status" do
         subject()
-        expect(Client) |> to(accepted(:post, [client(), "/items/123456/choose_status", "status_id=123457"]))
+        expect(Client) |> to(accepted(:post, [client(), "/items/123456/choose_status", %{status_id: 123457} |> Poison.encode!]))
       end
     end
   end
@@ -433,7 +433,7 @@ defmodule GatherContext.API.ItemSpec do
 
       it "applies the template'" do
         subject()
-        expect(Client) |> to(accepted(:post, [client(), "/items/123456/apply_template", "template_id=123457"]))
+        expect(Client) |> to(accepted(:post, [client(), "/items/123456/apply_template", %{template_id: 123457} |> Poison.encode!]))
       end
     end
 
@@ -442,7 +442,7 @@ defmodule GatherContext.API.ItemSpec do
 
       it "applies the template'" do
         subject()
-        expect(Client) |> to(accepted(:post, [client(), "/items/123456/apply_template", "template_id=123457"]))
+        expect(Client) |> to(accepted(:post, [client(), "/items/123456/apply_template", %{template_id: 123457} |> Poison.encode!]))
       end
     end
   end
@@ -456,7 +456,7 @@ defmodule GatherContext.API.ItemSpec do
 
       it "saves the base64 encoded JSON object'" do
         subject()
-        expect(Client) |> to(accepted(:post, [client(), "/items/123456/save", "config=W10%3D"]))
+        expect(Client) |> to(accepted(:post, [client(), "/items/123456/save", %{config: "W10="} |> Poison.encode!]))
       end
     end
 
@@ -465,7 +465,7 @@ defmodule GatherContext.API.ItemSpec do
 
       it "saves the base64 encoded JSON object'" do
         subject()
-        expect(Client) |> to(accepted(:post, [client(), "/items/123456/save", "config=W10%3D"]))
+        expect(Client) |> to(accepted(:post, [client(), "/items/123456/save", %{config: "W10="} |> Poison.encode!]))
       end
     end
   end

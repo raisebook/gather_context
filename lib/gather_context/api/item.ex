@@ -34,16 +34,21 @@ defmodule GatherContext.API.Item do
     create(client, project, name, [])
   end
 
+  defp config_encode(payload) do
+    case payload |> Access.get(:config) do
+      nil -> payload
+      config -> payload |> List.keyreplace(:config, 0, {:config, Config.encode(config)})
+    end
+  end
+
   def create(client, %Project{id: project_id}, name, optionals) do
     query = [project_id: project_id, name: name] ++ optionals
       |> Enum.reject(&is_nil/1)
+      |> config_encode
+      |> Map.new
+      |> Poison.encode!
 
-    query = case query |> Access.get(:config) do
-      nil -> query
-      config -> query |> List.keyreplace(:config, 0, {:config, Config.encode(config)})
-    end
-
-    client |> Client.post("/items", query |> Poison.encode!)
+    client |> Client.post("/items", query)
   end
 
   def create(client, project_id, name, optionals) when is_integer(project_id) do
@@ -51,7 +56,7 @@ defmodule GatherContext.API.Item do
   end
 
   def choose_status(client, %Item{id: id}, %GatherContext.Types.Status{id: status_id}) do
-    client |> Client.post("/items/#{id}/choose_status", URI.encode_query(%{status_id: status_id}))
+    client |> Client.post("/items/#{id}/choose_status", %{status_id: status_id} |> Poison.encode!)
   end
 
   def choose_status(client, %Item{id: id}, status_id) when is_integer(status_id) do

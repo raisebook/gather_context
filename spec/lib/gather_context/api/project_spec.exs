@@ -181,7 +181,7 @@ defmodule GatherContext.API.ProjectSpec do
 
       it "creates the project" do
         subject()
-        expect(Client) |> to(accepted(:post, [client(), "/projects", "account_id=123456&name=Test+Project&type=website-build"]))
+        expect(Client) |> to(accepted(:post, [client(), "/projects", %{account_id: 123456, name: "Test Project", type: "website-build"} |> Poison.encode!]))
       end
     end
 
@@ -190,7 +190,7 @@ defmodule GatherContext.API.ProjectSpec do
 
       it "creates the project" do
         subject()
-        expect(Client) |> to(accepted(:post, [client(), "/projects", "account_id=123456&name=Test+Project&type=website-build"]))
+        expect(Client) |> to(accepted(:post, [client(), "/projects", %{account_id: 123456, name: "Test Project", type: "website-build"} |> Poison.encode!]))
       end
     end
 
@@ -199,7 +199,7 @@ defmodule GatherContext.API.ProjectSpec do
 
       it "creates the project categorizes as 'other'" do
         subject()
-        expect(Client) |> to(accepted(:post, [client(), "/projects", "account_id=123456&name=Test+Project&type=other"]))
+        expect(Client) |> to(accepted(:post, [client(), "/projects", %{account_id: 123456, name: "Test Project", type: "other"} |> Poison.encode!]))
       end
     end
 
@@ -208,7 +208,7 @@ defmodule GatherContext.API.ProjectSpec do
 
       it "creates the project categorizes as 'other'" do
         subject()
-        expect(Client) |> to(accepted(:post, [client(), "/projects", "account_id=123456&name=Test+Project&type=other"]))
+        expect(Client) |> to(accepted(:post, [client(), "/projects", %{account_id: 123456, name: "Test Project", type: "other"} |> Poison.encode!]))
       end
     end
   end
