@@ -34,16 +34,21 @@ defmodule GatherContext.API.Item do
     create(client, project, name, [])
   end
 
+  defp config_encode(payload) do
+    case payload |> Access.get(:config) do
+      nil -> payload
+      config -> payload |> List.keyreplace(:config, 0, {:config, Config.encode(config)})
+    end
+  end
+
   def create(client, %Project{id: project_id}, name, optionals) do
     query = [project_id: project_id, name: name] ++ optionals
       |> Enum.reject(&is_nil/1)
+      |> config_encode
+      |> Map.new
+      |> Poison.encode!
 
-    query = case query |> Access.get(:config) do
-      nil -> query
-      config -> query |> List.keyreplace(:config, 0, {:config, Config.encode(config)})
-    end
-
-    client |> Client.post("/items", URI.encode_query(query))
+    client |> Client.post("/items", query)
   end
 
   def create(client, project_id, name, optionals) when is_integer(project_id) do
@@ -51,7 +56,7 @@ defmodule GatherContext.API.Item do
   end
 
   def choose_status(client, %Item{id: id}, %GatherContext.Types.Status{id: status_id}) do
-    client |> Client.post("/items/#{id}/choose_status", URI.encode_query(%{status_id: status_id}))
+    client |> Client.post("/items/#{id}/choose_status", %{status_id: status_id} |> Poison.encode!)
   end
 
   def choose_status(client, %Item{id: id}, status_id) when is_integer(status_id) do
@@ -67,7 +72,7 @@ defmodule GatherContext.API.Item do
   end
 
   def apply_template(client, %Item{id: id}, template_id) do
-    client |> Client.post("/items/#{id}/apply_template", URI.encode_query(%{template_id: template_id}))
+    client |> Client.post("/items/#{id}/apply_template", %{template_id: template_id} |> Poison.encode!)
   end
 
   def apply_template(client, id, template_id) when is_integer(id) do
@@ -77,7 +82,7 @@ defmodule GatherContext.API.Item do
   def save(client, %Item{id: id}, config) do
     encoded = Config.encode(config)
 
-    client |> Client.post("/items/#{id}/save", URI.encode_query(%{config: encoded}))
+    client |> Client.post("/items/#{id}/save", %{config: encoded} |> Poison.encode!)
   end
 
   def save(client, id, config) when is_integer(id) do
