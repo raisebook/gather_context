@@ -48,7 +48,10 @@ defmodule GatherContext.API.Item do
       |> Map.new
       |> Poison.encode!
 
-    client |> Client.post("/items", query)
+    case client |> Client.post("/items", query) do
+      {:ok, location} -> {:ok, location |> String.split("/") |> List.last |> String.to_integer }
+      error -> error
+    end
   end
 
   def create(client, project_id, name, optionals) when is_integer(project_id) do
