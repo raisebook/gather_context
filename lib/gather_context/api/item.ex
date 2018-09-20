@@ -43,7 +43,7 @@ defmodule GatherContext.API.Item do
       config -> query |> List.keyreplace(:config, 0, {:config, Config.encode(config)})
     end
 
-    client |> Client.post("/items", URI.encode_query(query))
+    client |> Client.post("/items", query |> Poison.encode!)
   end
 
   def create(client, project_id, name, optionals) when is_integer(project_id) do
@@ -67,7 +67,7 @@ defmodule GatherContext.API.Item do
   end
 
   def apply_template(client, %Item{id: id}, template_id) do
-    client |> Client.post("/items/#{id}/apply_template", URI.encode_query(%{template_id: template_id}))
+    client |> Client.post("/items/#{id}/apply_template", %{template_id: template_id} |> Poison.encode!)
   end
 
   def apply_template(client, id, template_id) when is_integer(id) do
@@ -77,7 +77,7 @@ defmodule GatherContext.API.Item do
   def save(client, %Item{id: id}, config) do
     encoded = Config.encode(config)
 
-    client |> Client.post("/items/#{id}/save", URI.encode_query(%{config: encoded}))
+    client |> Client.post("/items/#{id}/save", %{config: encoded} |> Poison.encode!)
   end
 
   def save(client, id, config) when is_integer(id) do

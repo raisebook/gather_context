@@ -29,6 +29,7 @@ defmodule GatherContext.API.Client do
     case HTTPoison.post(url(endpoint), data, @headers, options(client)) do
       {:ok, %Response{status_code: 200}} -> {:ok}
       {:ok, %Response{status_code: 201}} -> {:ok}
+      {:ok, %Response{status_code: 202}} -> {:ok}
       {:ok, %Response{status_code: 400, body: body}} -> {:error, parse_error(body)}
       {:ok, %Response{status_code: 401}} -> {:unauthorized}
       {:ok, %Response{status_code: 404}} -> {:not_found}
