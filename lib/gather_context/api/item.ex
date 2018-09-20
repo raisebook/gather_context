@@ -55,7 +55,7 @@ defmodule GatherContext.API.Item do
   end
 
   def create(client, project_id, name, optionals) when is_integer(project_id) do
-    create(client, project_id, name, optionals)
+    create(client, %Project{id: project_id}, name, optionals)
   end
 
   def choose_status(client, %Item{id: id}, %GatherContext.Types.Status{id: status_id}) do
