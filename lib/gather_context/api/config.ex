@@ -7,7 +7,7 @@ defmodule GatherContext.API.Config do
   end
 
   def encode(config) do
-    config.tabs
+    config
     |> Element.encode
     |> Poison.encode!
     |> Base.encode64()
