@@ -15,6 +15,7 @@ defmodule GatherContext.Types.Config do
 
   def encode(%GatherContext.Types.Config{tabs: tabs}) do
     tabs
+    |> GatherContext.Element.encode
   end
 end
 
