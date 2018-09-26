@@ -1,12 +1,16 @@
 defmodule GatherContext.API.Client do
   alias GatherContext.API.Client
-  alias HTTPoison.Response
+  alias HTTPoison.{Response, Error}
 
   defstruct username: Application.fetch_env!(:gather_context, :username),
             api_key: Application.fetch_env!(:gather_context, :api_key),
-            get: nil, post: nil
+            get: nil,
+            post: nil
 
-  @headers %{"Content-type" => "application/json", "Accept" => "application/vnd.gathercontent.v0.5+json"}
+  @headers %{
+    "Content-type" => "application/json",
+    "Accept" => "application/vnd.gathercontent.v0.5+json"
+  }
 
   def new(client = %Client{}) do
     client
@@ -22,21 +26,40 @@ defmodule GatherContext.API.Client do
       {:ok, %Response{status_code: 400, body: body}} -> {:error, parse_error(body)}
       {:ok, %Response{status_code: 401}} -> {:unauthorized}
       {:ok, %Response{status_code: 404}} -> {:not_found}
+      {:error, %Error{reason: reason}} -> {:error, inspect(reason)}
+      {:error, _} -> {:error, "Unknown error"}
     end
   end
 
   def post(client, endpoint, data) do
     case HTTPoison.post(url(endpoint), data, @headers, options(client)) do
-      {:ok, %Response{status_code: 200}} -> {:ok}
-      {:ok, %Response{status_code: 201}} -> {:ok}
-      {:ok, %Response{status_code: 202, headers: headers}} -> {:ok, headers |> Map.new |> Map.get("Location")}
-      {:ok, %Response{status_code: 400, body: body}} -> {:error, parse_error(body)}
-      {:ok, %Response{status_code: 401}} -> {:unauthorized}
-      {:ok, %Response{status_code: 404}} -> {:not_found}
+      {:ok, %Response{status_code: 200, body: body}} ->
+        {:ok, parse_data(body)}
+
+      {:ok, %Response{status_code: 201}} ->
+        {:ok}
+
+      {:ok, %Response{status_code: 202, headers: headers}} ->
+        {:ok, headers |> Map.new() |> Map.get("Location")}
+
+      {:ok, %Response{status_code: 400, body: body}} ->
+        {:error, parse_error(body)}
+
+      {:ok, %Response{status_code: 401}} ->
+        {:unauthorized}
+
+      {:ok, %Response{status_code: 404}} ->
+        {:not_found}
+
+      {:error, %Error{reason: reason}} ->
+        {:error, inspect(reason)}
+
+      {:error, _} ->
+        {:error, "Unknown error"}
     end
   end
 
-  defp url(endpoint)  do
+  defp url(endpoint) do
     base = Application.fetch_env!(:gather_context, :api_host)
     port = Application.fetch_env!(:gather_context, :api_port)
 
@@ -45,7 +68,7 @@ defmodule GatherContext.API.Client do
 
   defp parse(body) do
     body
-    |> Poison.decode!
+    |> Poison.decode!()
   end
 
   defp parse_data(body) do
