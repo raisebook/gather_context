@@ -20,6 +20,15 @@ defmodule GatherContext.Types.Config.OtherOption do
   def encode(%OtherOption{name: name, label: label, selected: selected, value: value}) do
     %{name: name, label: label, selected: selected, value: value}
   end
+
+  def build(data) do
+    %GatherContext.Types.Config.OtherOption{
+      name: data["name"],
+      label: data["label"],
+      selected: data["selected"],
+      value: data["value"]
+    }
+  end
 end
 
 defimpl GatherContext.Element, for: GatherContext.Types.Config.OtherOption do

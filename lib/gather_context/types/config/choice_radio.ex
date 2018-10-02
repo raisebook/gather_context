@@ -67,6 +67,31 @@ defmodule GatherContext.Types.Config.ChoiceRadio do
       options: encode_options(data.options, data.other_option)
     })
   end
+
+  # If other_option is true, and we are working with the last element in the list
+  defp build_options(built, [option | []], other_option) when other_option == true do
+    built ++ [GatherContext.Types.Config.OtherOption.build(option)]
+  end
+
+  defp build_options(built, [option | tail], other_option) do
+    built = built ++ [GatherContext.Types.Config.Option.build(option)]
+
+    case tail do
+      [] -> built
+      tail -> build_options(built, tail, other_option)
+    end
+  end
+
+  defp build_options(options, other_option) do
+    build_options([], options, other_option)
+  end
+
+  def build(data) do
+    %ChoiceRadio{
+      options: data["options"] |> build_options(data["other_option"]),
+      other_option: data["other_option"]
+    }
+  end
 end
 
 defimpl GatherContext.Element, for: GatherContext.Types.Config.ChoiceRadio do

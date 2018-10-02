@@ -9,6 +9,10 @@ defmodule GatherContext.Types.Config.Files do
     data
     |> Element.encode
   end
+
+  def build(_json) do
+    %Files{}
+  end
 end
 
 defimpl GatherContext.Element, for: GatherContext.Types.Config.Files do

@@ -34,6 +34,8 @@ defmodule GatherContext.Types.Config.Element do
     end
   end
 
+  alias GatherContext.Types.Config
+
   defstruct name: "",
             required: false,
             label: "",
@@ -41,22 +43,40 @@ defmodule GatherContext.Types.Config.Element do
 
   @callback encode(struct) :: {:ok, map} | {:error, String.t}
 
-  def encode(%GatherContext.Types.Config.Element{name: ""}) do
+  def encode(%Config.Element{name: ""}) do
     raise ArgumentError, message: "name is required"
   end
 
-  def encode(%GatherContext.Types.Config.Element{label: ""}) do
+  def encode(%Config.Element{label: ""}) do
     raise ArgumentError, message: "label is required"
   end
 
-  def encode(%GatherContext.Types.Config.Element{name: name, required: required, label: label, microcopy: microcopy}) do
+  def encode(%Config.Element{name: name, required: required, label: label, microcopy: microcopy}) do
     %{name: name, required: required, label: label, microcopy: microcopy}
   end
 
   def encode(%{__struct__: struct_type} = struct) do
-    struct(GatherContext.Types.Config.Element, Map.from_struct(struct))
+    struct(Config.Element, Map.from_struct(struct))
     |> encode
     |> Map.merge(%{type: struct_type.type()})
+  end
+
+  defp build_defaults(struct, data) do
+    struct
+    |> Map.put(:name, data["name"])
+    |> Map.put(:required, data["required"])
+    |> Map.put(:label, data["label"])
+    |> Map.put(:microcopy, data["microcopy"])
+  end
+
+  def build(data) do
+    case data["type"] do
+      "section" -> Config.Section.build(data)
+      "text" -> Config.Text.build(data) |> build_defaults(data)
+      "files" -> Config.Files.build(data) |> build_defaults(data)
+      "choice_radio" -> Config.ChoiceRadio.build(data) |> build_defaults(data)
+      "choice_checkbox" -> Config.ChoiceCheckbox.build(data) |> build_defaults(data)
+    end
   end
 end
 

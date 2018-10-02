@@ -26,6 +26,15 @@ defmodule GatherContext.Types.Config.Text do
       plain_text: data.plain_text
     })
   end
+
+  def build(data) do
+    %Text{
+      value: data["value"],
+      limit_type: data["limit_type"],
+      limit: data["limit"],
+      plain_text: data["plain_text"]
+    }
+  end
 end
 
 defimpl GatherContext.Element, for: GatherContext.Types.Config.Text do

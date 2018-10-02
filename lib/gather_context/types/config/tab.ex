@@ -17,6 +17,15 @@ defmodule GatherContext.Types.Config.Tab do
   def encode(%GatherContext.Types.Config.Tab{name: name, label: label, hidden: hidden, elements: elements}) do
     %{name: name, label: label, hidden: hidden, elements: GatherContext.Element.encode(elements)}
   end
+
+  def build(data) do
+    %GatherContext.Types.Config.Tab{
+      name: data["name"],
+      label: data["label"],
+      hidden: data["hidden"],
+      elements: data["elements"] |> Enum.map(&GatherContext.Types.Config.Element.build(&1))
+    }
+  end
 end
 
 defimpl GatherContext.Element, for: GatherContext.Types.Config.Tab do

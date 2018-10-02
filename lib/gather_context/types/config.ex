@@ -17,6 +17,13 @@ defmodule GatherContext.Types.Config do
     tabs
     |> GatherContext.Element.encode
   end
+
+  def build(data) do
+    case data do
+      nil -> nil
+      data -> %GatherContext.Types.Config{ tabs: data |> Enum.map(&GatherContext.Types.Config.Tab.build(&1)) }
+    end
+  end
 end
 
 defimpl GatherContext.Element, for: GatherContext.Types.Config do

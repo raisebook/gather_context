@@ -15,6 +15,12 @@ defmodule GatherContext.Types.Config.ChoiceCheckbox do
       options: GatherContext.Element.encode(data.options)
     })
   end
+
+  def build(data) do
+    %GatherContext.Types.Config.ChoiceCheckbox{
+      options: data["options"] |> Enum.map(&GatherContext.Types.Config.Option.build(&1)),
+    }
+  end
 end
 
 defimpl GatherContext.Element, for: GatherContext.Types.Config.ChoiceCheckbox do

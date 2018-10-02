@@ -14,6 +14,14 @@ defmodule GatherContext.Types.Config.Section do
   def encode(%GatherContext.Types.Config.Section{name: name, title: title, subtitle: subtitle}) do
     %{type: "section", name: name, title: title, subtitle: subtitle}
   end
+
+  def build(data) do
+    %GatherContext.Types.Config.Section{
+      name: data["name"],
+      title: data["title"],
+      subtitle: data["subtitle"]
+    }
+  end
 end
 
 defimpl GatherContext.Element, for: GatherContext.Types.Config.Section do

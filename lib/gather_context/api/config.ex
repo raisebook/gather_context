@@ -2,8 +2,9 @@ defmodule GatherContext.API.Config do
   alias GatherContext.Types.Config
   alias GatherContext.Element
 
-  def build(_json) do
-    %Config{}
+  def build(json) do
+    json
+    |> Config.build
   end
 
   def encode(config) do
