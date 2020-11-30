@@ -9,7 +9,7 @@ defmodule GatherContext.API.Client do
 
   @headers %{
     "Content-type" => "application/json",
-    "Accept" => "application/vnd.gathercontent.v0.5+json"
+    "Accept" => "application/vnd.gathercontent.v2+json"
   }
 
   def new(client = %Client{}) do
