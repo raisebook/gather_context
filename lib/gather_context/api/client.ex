@@ -9,7 +9,7 @@ defmodule GatherContext.API.Client do
 
   @headers %{
     "Content-type" => "application/json",
-    "Accept" => "application/vnd.gathercontent.v2+json"
+    "Accept" => "application/vnd.gathercontent.v0.5+json"
   }
 
   def new(client = %Client{}) do
@@ -63,7 +63,7 @@ defmodule GatherContext.API.Client do
     base = Application.fetch_env!(:gather_context, :api_host)
     port = Application.fetch_env!(:gather_context, :api_port)
 
-    "#{base}:#{port}/#{endpoint}"
+    "#{base}:#{port}#{endpoint}"
   end
 
   defp parse(body) do
