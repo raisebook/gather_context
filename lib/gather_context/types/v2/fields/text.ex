@@ -19,9 +19,11 @@ end
 defmodule GatherContext.Types.V2.Fields.Text.Metadata do
   alias GatherContext.Types.V2.Fields.Text.Metadata
   alias GatherContext.Types.V2.Fields.Text.Metadata.Validation
+  alias GatherContext.Types.V2.Fields.Text.Metadata.Repeatable
 
   defstruct is_plain: false,
-            validation: nil
+            validation: nil,
+            repeatable: nil
 
   def encode(nil) do
     encode(%Metadata{})
@@ -31,7 +33,9 @@ defmodule GatherContext.Types.V2.Fields.Text.Metadata do
     data
     |> Map.from_struct()
     |> Map.merge(%{validation: data.validation |> Validation.encode()})
+    |> Map.merge(%{repeatable: data.repeatable |> Repeatable.encode()})
     |> Enum.filter(fn {_, v} -> v != nil end)
+    |> Enum.into(%{})
   end
 end
 
@@ -46,6 +50,22 @@ defmodule GatherContext.Types.V2.Fields.Text.Metadata.Validation do
   end
 
   def encode(data = %Validation{}) do
-    data |> Map.from_struct() |> Enum.filter(fn {_, v} -> v != nil end)
+    data |> Map.from_struct() |> Enum.filter(fn {_, v} -> v != nil end) |> Enum.into(%{})
+  end
+end
+
+defmodule GatherContext.Types.V2.Fields.Text.Metadata.Repeatable do
+  alias GatherContext.Types.V2.Fields.Text.Metadata.Repeatable
+
+  defstruct is_repeatable: false,
+            limit_enabled: false,
+            limit: nil
+
+  def encode(nil) do
+    nil
+  end
+
+  def encode(data = %Repeatable{}) do
+    data |> Map.from_struct() |> Enum.filter(fn {_, v} -> v != nil end) |> Enum.into(%{})
   end
 end

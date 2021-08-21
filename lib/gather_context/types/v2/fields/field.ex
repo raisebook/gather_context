@@ -75,11 +75,11 @@ defmodule GatherContext.Types.V2.Fields.Field do
   #   |> Map.put(:instructions, data["instructions"])
   # end
 
-  def build(data) do
-    case data["type"] do
-      "guideline" -> Section.build(data)
-    end
-  end
+  # def build(data) do
+  #   case data["type"] do
+  #     "guideline" -> Guideline.build(data)
+  #   end
+  # end
 end
 
 defimpl GatherContext.Field, for: List do
