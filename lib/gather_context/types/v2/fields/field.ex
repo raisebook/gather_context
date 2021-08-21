@@ -58,6 +58,8 @@ defmodule GatherContext.Types.V2.Fields.Field do
 
   def encode(%Field{uuid: uuid, label: label, instructions: instructions}) do
     %{uuid: uuid, label: label, instructions: instructions}
+    |> Enum.filter(fn {_, v} -> v != nil end)
+    |> Enum.into(%{})
   end
 
   def encode(%{__struct__: struct_type} = struct) do
