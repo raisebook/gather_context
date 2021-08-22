@@ -41,6 +41,7 @@ defmodule GatherContext.Types.V2.Fields.Field do
   end
 
   alias GatherContext.Types.V2.Fields.Field
+  alias GatherContext.Types.V2.Fields
 
   defstruct uuid: nil,
             label: nil,
@@ -68,18 +69,22 @@ defmodule GatherContext.Types.V2.Fields.Field do
     |> Map.merge(%{type: struct_type.type()})
   end
 
-  # defp build_defaults(struct, data) do
-  #   struct
-  #   |> Map.put(:uuid, data["uuid"])
-  #   |> Map.put(:label, data["label"])
-  #   |> Map.put(:instructions, data["instructions"])
-  # end
+  defp build_defaults(struct, data) do
+    struct
+    |> Map.put(:uuid, data["uuid"])
+    |> Map.put(:label, data["label"])
+    |> Map.put(:instructions, data["instructions"])
+  end
 
-  # def build(data) do
-  #   case data["type"] do
-  #     "guideline" -> Guideline.build(data)
-  #   end
-  # end
+  def build(data) do
+    case data["type"] do
+      "attachment" -> data |> Fields.Attachment.build() |> build_defaults(data)
+      "guideline" -> data |> Fields.Guideline.build() |> build_defaults(data)
+      "checkbox" -> data |> Fields.Checkbox.build() |> build_defaults(data)
+      "component" -> data |> Fields.Component.build() |> build_defaults(data)
+      "radio" -> data |> Fields.Radio.build() |> build_defaults(data)
+    end
+  end
 end
 
 defimpl GatherContext.Field, for: List do

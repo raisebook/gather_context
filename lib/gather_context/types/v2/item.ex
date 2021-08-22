@@ -5,10 +5,20 @@ defmodule GatherContext.Types.V2.Item do
             project_id: nil,
             name: nil,
             template_id: nil,
+            structure_uuid: nil,
             structure: %Structure{},
             status_id: nil,
             folder_uuid: nil,
-            position: 0
+            position: 0,
+            archived_by: nil,
+            archived_at: nil,
+            created_at: nil,
+            updated_at: nil,
+            next_due_at: nil,
+            completed_at: nil,
+            assigned_user_ids: [],
+            assignee_count: nil,
+            content: nil
 
   def encode(data = %Item{}) do
     data

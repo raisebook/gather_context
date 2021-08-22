@@ -36,7 +36,7 @@ defmodule GatherContext.Types.V2.Fields.CheckboxSpec do
     subject(do: Checkbox.encode(element()))
 
     it "encodes type" do
-      expect(subject()[:type]) |> to(eq("radio"))
+      expect(subject()[:type]) |> to(eq("checkbox"))
     end
 
     describe "when uuid" do

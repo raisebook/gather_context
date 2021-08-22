@@ -14,6 +14,10 @@ defmodule GatherContext.Types.V2.Fields.Radio do
       metadata: data.metadata |> Metadata.encode()
     })
   end
+
+  def build(data) do
+    %Radio{metadata: Metadata.build(data["metadata"])}
+  end
 end
 
 defmodule GatherContext.Types.V2.Fields.Radio.Metadata do
@@ -34,6 +38,10 @@ defmodule GatherContext.Types.V2.Fields.Radio.Metadata do
     |> Map.merge(%{
       choice_fields: data.choice_fields |> ChoiceFields.encode()
     })
+  end
+
+  def build(data) do
+    %Metadata{choice_fields: ChoiceFields.build(data["choice_fields"])}
   end
 end
 
@@ -65,6 +73,13 @@ defmodule GatherContext.Types.V2.Fields.Radio.ChoiceFields do
     |> Enum.filter(fn {_, v} -> v != nil end)
     |> Enum.into(%{})
   end
+
+  def build(data) do
+    %ChoiceFields{
+      options: data["options"] |> Enum.map(&Option.build/1),
+      other_options: data["other_options"] |> Option.build()
+    }
+  end
 end
 
 defmodule GatherContext.Types.V2.Fields.Radio.Option do
@@ -79,6 +94,10 @@ defmodule GatherContext.Types.V2.Fields.Radio.Option do
 
   def encode(data = %Option{}) do
     data |> Map.from_struct() |> Enum.filter(fn {_, v} -> v != nil end) |> Enum.into(%{})
+  end
+
+  def build(data) do
+    %Option{options_id: data["options_id"], label: data["label"]}
   end
 end
 

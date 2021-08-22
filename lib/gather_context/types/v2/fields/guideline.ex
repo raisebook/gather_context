@@ -9,6 +9,10 @@ defmodule GatherContext.Types.V2.Fields.Guideline do
   def encode(data = %Guideline{}) do
     data |> Field.encode()
   end
+
+  def build(_data) do
+    %Guideline{}
+  end
 end
 
 defimpl GatherContext.Field, for: GatherContext.Types.V2.Fields.Guideline do

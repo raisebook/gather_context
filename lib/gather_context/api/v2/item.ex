@@ -1,7 +1,7 @@
 defmodule GatherContext.API.V2.Item do
   alias GatherContext.API.V2.Client
   alias GatherContext.API.{Config}
-  alias GatherContext.Types.V2.Item
+  alias GatherContext.Types.V2.{Item, Structure}
   alias GatherContext.Types.Project
 
   def all(client, project_id) when is_integer(project_id) do
@@ -105,8 +105,19 @@ defmodule GatherContext.API.V2.Item do
       status_id: json["status_id"],
       folder_uuid: json["folder_uuid"],
       template_id: json["template_id"],
+      structure_uuid: json["structure_uuid"],
+      structure: Structure.build(json["structure"]),
       position: json["position"] |> String.to_integer(),
-      name: json["name"]
+      name: json["name"],
+      archived_by: json["archived_by"] |> String.to_integer(),
+      archived_at: json["archived_at"],
+      created_at: json["created_at"],
+      updated_at: json["updated_at"],
+      next_due_at: json["next_due_at"],
+      completed_at: json["completed_at"],
+      assigned_user_ids: json["assigned_user_ids"] |> Enum.map(&String.to_integer/1),
+      assignee_count: json["assignee_count"] |> String.to_integer(),
+      content: nil
     }
   end
 end

@@ -21,4 +21,8 @@ defmodule GatherContext.Types.V2.Structure do
     |> Enum.filter(fn {_, v} -> v != nil end)
     |> Enum.into(%{})
   end
+
+  def build(data) do
+    %Structure{uuid: data["uuid"], groups: data["groups"] |> Group.build()}
+  end
 end

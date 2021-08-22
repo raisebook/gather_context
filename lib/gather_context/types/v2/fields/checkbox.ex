@@ -3,7 +3,7 @@ defmodule GatherContext.Types.V2.Fields.Checkbox do
   alias GatherContext.Types.V2.Fields.{Field, Checkbox}
   alias GatherContext.Types.V2.Fields.Checkbox.Metadata
 
-  type("radio")
+  type("checkbox")
 
   fields([:metadata])
 
@@ -13,6 +13,10 @@ defmodule GatherContext.Types.V2.Fields.Checkbox do
     |> Map.merge(%{
       metadata: data.metadata |> Metadata.encode()
     })
+  end
+
+  def build(data) do
+    %Checkbox{metadata: Metadata.build(data["metadata"])}
   end
 end
 
@@ -34,6 +38,10 @@ defmodule GatherContext.Types.V2.Fields.Checkbox.Metadata do
     |> Map.merge(%{
       choice_fields: data.choice_fields |> ChoiceFields.encode()
     })
+  end
+
+  def build(data) do
+    %Metadata{choice_fields: ChoiceFields.build(data["choice_fields"])}
   end
 end
 
@@ -63,6 +71,10 @@ defmodule GatherContext.Types.V2.Fields.Checkbox.ChoiceFields do
     |> Enum.filter(fn {_, v} -> v != nil end)
     |> Enum.into(%{})
   end
+
+  def build(data) do
+    %ChoiceFields{options: data["options"] |> Enum.map(&Option.build/1)}
+  end
 end
 
 defmodule GatherContext.Types.V2.Fields.Checkbox.Option do
@@ -77,6 +89,10 @@ defmodule GatherContext.Types.V2.Fields.Checkbox.Option do
 
   def encode(data = %Option{}) do
     data |> Map.from_struct() |> Enum.filter(fn {_, v} -> v != nil end) |> Enum.into(%{})
+  end
+
+  def build(data) do
+    %Option{options_id: data["options_id"], label: data["label"]}
   end
 end
 

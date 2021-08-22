@@ -23,4 +23,12 @@ defmodule GatherContext.Types.V2.Group do
     |> Enum.filter(fn {_, v} -> v != nil end)
     |> Enum.into(%{})
   end
+
+  def build(data) do
+    %Group{
+      uuid: data["uuid"],
+      name: data["name"],
+      fields: data["fields"] |> Enum.map(&GatherContext.Types.V2.Fields.Field.build/1)
+    }
+  end
 end

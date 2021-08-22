@@ -14,6 +14,12 @@ defmodule GatherContext.Types.V2.Fields.Text do
       metadata: data.metadata |> Metadata.encode()
     })
   end
+
+  def build(data) do
+    %Text{
+      metadata: Metadata.build(data["metadata"])
+    }
+  end
 end
 
 defmodule GatherContext.Types.V2.Fields.Text.Metadata do
@@ -37,6 +43,14 @@ defmodule GatherContext.Types.V2.Fields.Text.Metadata do
     |> Enum.filter(fn {_, v} -> v != nil end)
     |> Enum.into(%{})
   end
+
+  def build(data) do
+    %Metadata{
+      is_plain: data["is_plain"],
+      repeatable: Repeatable.build(data["repeatable"]),
+      validation: Validation.build(data["validation"])
+    }
+  end
 end
 
 defmodule GatherContext.Types.V2.Fields.Text.Metadata.Validation do
@@ -51,6 +65,10 @@ defmodule GatherContext.Types.V2.Fields.Text.Metadata.Validation do
 
   def encode(data = %Validation{}) do
     data |> Map.from_struct() |> Enum.filter(fn {_, v} -> v != nil end) |> Enum.into(%{})
+  end
+
+  def build(data) do
+    %Validation{rule: data["rule"], limit: data["limit"]}
   end
 end
 
@@ -67,6 +85,14 @@ defmodule GatherContext.Types.V2.Fields.Text.Metadata.Repeatable do
 
   def encode(data = %Repeatable{}) do
     data |> Map.from_struct() |> Enum.filter(fn {_, v} -> v != nil end) |> Enum.into(%{})
+  end
+
+  def build(data) do
+    %Repeatable{
+      is_repeatable: data["is_repeatable"],
+      limit_enabled: data["limit_enabled"],
+      limit: data["limit"]
+    }
   end
 end
 

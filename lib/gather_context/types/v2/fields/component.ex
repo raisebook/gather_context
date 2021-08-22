@@ -19,6 +19,14 @@ defmodule GatherContext.Types.V2.Fields.Component do
     |> Enum.filter(fn {_, v} -> v != nil end)
     |> Enum.into(%{})
   end
+
+  def build(data) do
+    %Component{
+      metadata: Metadata.build(data["metadata"]),
+      component: data["component"],
+      structure: data["structure"] |> Structure.build()
+    }
+  end
 end
 
 defmodule GatherContext.Types.V2.Fields.Component.Metadata do
@@ -38,6 +46,10 @@ defmodule GatherContext.Types.V2.Fields.Component.Metadata do
     |> Enum.filter(fn {_, v} -> v != nil end)
     |> Enum.into(%{})
   end
+
+  def build(data) do
+    %Metadata{repeatable: Repeatable.build(data["repeatable"])}
+  end
 end
 
 defmodule GatherContext.Types.V2.Fields.Component.Metadata.Repeatable do
@@ -53,6 +65,14 @@ defmodule GatherContext.Types.V2.Fields.Component.Metadata.Repeatable do
 
   def encode(data = %Repeatable{}) do
     data |> Map.from_struct() |> Enum.filter(fn {_, v} -> v != nil end) |> Enum.into(%{})
+  end
+
+  def build(data) do
+    %Repeatable{
+      is_repeatable: data["is_repeatable"],
+      limit_enabled: data["limit_enabled"],
+      limit: data["limit"]
+    }
   end
 end
 
