@@ -117,7 +117,7 @@ defmodule GatherContext.API.V2.Item do
       completed_at: json["completed_at"],
       assigned_user_ids: json["assigned_user_ids"] |> Enum.map(&String.to_integer/1),
       assignee_count: json["assignee_count"] |> String.to_integer(),
-      content: nil
+      content: json["content"]
     }
   end
 end
