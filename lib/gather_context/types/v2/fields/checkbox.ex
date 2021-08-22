@@ -79,3 +79,9 @@ defmodule GatherContext.Types.V2.Fields.Checkbox.Option do
     data |> Map.from_struct() |> Enum.filter(fn {_, v} -> v != nil end) |> Enum.into(%{})
   end
 end
+
+defimpl GatherContext.Field, for: GatherContext.Types.V2.Fields.Checkbox do
+  def encode(data) do
+    GatherContext.Types.V2.Fields.Checkbox.encode(data)
+  end
+end

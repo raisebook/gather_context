@@ -98,7 +98,8 @@ defmodule GatherContext.Types.V2.Fields.ComponentSpec do
         let(structure: %Structure{uuid: "00000000-0000-0000-000000000000"})
 
         it "encodes the structure" do
-          expect(subject()[:structure]) |> to(eq(%{uuid: "00000000-0000-0000-000000000000"}))
+          expect(subject()[:structure])
+          |> to(eq(%{uuid: "00000000-0000-0000-000000000000", groups: []}))
         end
       end
 

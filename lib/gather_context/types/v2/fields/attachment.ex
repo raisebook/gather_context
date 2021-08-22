@@ -10,3 +10,9 @@ defmodule GatherContext.Types.V2.Fields.Attachment do
     data |> Field.encode()
   end
 end
+
+defimpl GatherContext.Field, for: GatherContext.Types.V2.Fields.Attachment do
+  def encode(data) do
+    GatherContext.Types.V2.Fields.Attachment.encode(data)
+  end
+end

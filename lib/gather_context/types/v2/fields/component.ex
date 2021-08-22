@@ -55,3 +55,9 @@ defmodule GatherContext.Types.V2.Fields.Component.Metadata.Repeatable do
     data |> Map.from_struct() |> Enum.filter(fn {_, v} -> v != nil end) |> Enum.into(%{})
   end
 end
+
+defimpl GatherContext.Field, for: GatherContext.Types.V2.Fields.Component do
+  def encode(data) do
+    GatherContext.Types.V2.Fields.Component.encode(data)
+  end
+end
