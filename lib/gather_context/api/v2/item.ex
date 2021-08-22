@@ -62,23 +62,6 @@ defmodule GatherContext.API.V2.Item do
     create(client, %Project{id: project_id}, name, optionals)
   end
 
-  def choose_status(client, %Item{id: id}, %GatherContext.Types.Status{id: status_id}) do
-    client
-    |> Client.post("/items/#{id}/choose_status", %{status_id: status_id} |> Poison.encode!())
-  end
-
-  def choose_status(client, %Item{id: id}, status_id) when is_integer(status_id) do
-    choose_status(client, %Item{id: id}, %GatherContext.Types.Status{id: status_id})
-  end
-
-  def choose_status(client, id, %GatherContext.Types.Status{id: status_id}) when is_integer(id) do
-    choose_status(client, %Item{id: id}, %GatherContext.Types.Status{id: status_id})
-  end
-
-  def choose_status(client, id, status_id) when is_integer(id) and is_integer(status_id) do
-    choose_status(client, %Item{id: id}, %GatherContext.Types.Status{id: status_id})
-  end
-
   def apply_template(client, %Item{id: id}, template_id) do
     client
     |> Client.post("/items/#{id}/apply_template", %{template_id: template_id} |> Poison.encode!())
@@ -86,6 +69,18 @@ defmodule GatherContext.API.V2.Item do
 
   def apply_template(client, id, template_id) when is_integer(id) do
     apply_template(client, %Item{id: id}, template_id)
+  end
+
+  def disconnect_template(client, %Item{id: id}, template_id) do
+    client
+    |> Client.post(
+      "/items/#{id}/disconnect_template",
+      %{template_id: template_id} |> Poison.encode!()
+    )
+  end
+
+  def disconnect_template(client, id, template_id) when is_integer(id) do
+    disconnect_template(client, %Item{id: id}, template_id)
   end
 
   def save(client, %Item{id: id}, config) do
