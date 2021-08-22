@@ -1,7 +1,9 @@
 defmodule GatherContext.Types.V2.Item do
   alias GatherContext.Types.V2.{Item, Structure}
 
-  defstruct name: nil,
+  defstruct id: nil,
+            project_id: nil,
+            name: nil,
             template_id: nil,
             structure: %Structure{},
             status_id: nil,
