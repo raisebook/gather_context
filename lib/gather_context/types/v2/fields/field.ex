@@ -66,7 +66,7 @@ defmodule GatherContext.Types.V2.Fields.Field do
   def encode(%{__struct__: struct_type} = struct) do
     struct(Field, Map.from_struct(struct))
     |> encode
-    |> Map.merge(%{type: struct_type.type()})
+    |> Map.merge(%{field_type: struct_type.type()})
   end
 
   defp build_defaults(struct, data) do
