@@ -1,5 +1,5 @@
 defmodule GatherContext.API.V2.Client do
-  alias GatherContext.API.Client
+  alias GatherContext.API.V2.Client
   alias HTTPoison.{Response, Error}
 
   defstruct username: Application.fetch_env!(:gather_context, :username),
@@ -23,9 +23,9 @@ defmodule GatherContext.API.V2.Client do
   def get(client, endpoint) do
     case HTTPoison.get(url(endpoint), @headers, options(client)) do
       {:ok, %Response{status_code: 200, body: body}} -> {:ok, parse_data(body)}
-      {:ok, %Response{status_code: 400, body: body}} -> {:error, parse_error(body)}
       {:ok, %Response{status_code: 401}} -> {:unauthorized}
       {:ok, %Response{status_code: 404}} -> {:not_found}
+      {:ok, %Response{status_code: 422, body: body}} -> {:error, parse_error(body)}
       {:error, %Error{reason: reason}} -> {:error, inspect(reason)}
       {:error, _} -> {:error, "Unknown error"}
     end

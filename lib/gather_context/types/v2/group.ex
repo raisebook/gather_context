@@ -24,6 +24,10 @@ defmodule GatherContext.Types.V2.Group do
     |> Enum.into(%{})
   end
 
+  def build(nil) do
+    nil
+  end
+
   def build(data) do
     %Group{
       uuid: data["uuid"],

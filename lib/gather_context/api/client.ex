@@ -36,8 +36,8 @@ defmodule GatherContext.API.Client do
       {:ok, %Response{status_code: 200, body: body}} ->
         {:ok, parse_data(body)}
 
-      {:ok, %Response{status_code: 201}} ->
-        {:ok}
+      {:ok, %Response{status_code: 201, body: body}} ->
+        {:ok, parse_data(body)}
 
       {:ok, %Response{status_code: 202, headers: headers}} ->
         {:ok, headers |> Map.new() |> Map.get("Location")}

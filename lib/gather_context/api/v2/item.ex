@@ -9,7 +9,7 @@ defmodule GatherContext.API.V2.Item do
   end
 
   def all(client, %Project{id: project_id}) do
-    with {:ok, results} <- client |> Client.get("/items?project_id=#{project_id}"),
+    with {:ok, results} <- client |> Client.get("/projects/#{project_id}/items"),
          items <- results |> Enum.map(&build(&1)) do
       {:ok, items}
     else
@@ -30,36 +30,28 @@ defmodule GatherContext.API.V2.Item do
     end
   end
 
-  def create(client, project, name) do
-    create(client, project, name, [])
+  def create(client, project) do
+    create(client, project, %Item{})
   end
 
-  defp config_encode(payload) do
-    case payload |> Access.get(:config) do
-      nil -> payload
-      config -> payload |> List.keyreplace(:config, 0, {:config, Config.encode(config)})
-    end
-  end
-
-  def create(client, %Project{id: project_id}, name, optionals) do
+  def create(client, %Project{id: project_id}, item = %Item{}) do
     query =
-      ([project_id: project_id, name: name] ++ optionals)
-      |> Enum.reject(&is_nil/1)
-      |> config_encode
+      item
+      |> Item.encode()
       |> Map.new()
       |> Poison.encode!()
 
-    case client |> Client.post("/items", query) do
-      {:ok, location} ->
-        {:ok, location |> String.split("/") |> List.last() |> String.to_integer()}
+    case client |> Client.post("/projects/#{project_id}/items", query) do
+      {:ok} ->
+        {:ok}
 
       error ->
         error
     end
   end
 
-  def create(client, project_id, name, optionals) when is_integer(project_id) do
-    create(client, %Project{id: project_id}, name, optionals)
+  def create(client, project_id, item) when is_integer(project_id) do
+    create(client, %Project{id: project_id}, item)
   end
 
   def apply_template(client, %Item{id: id}, template_id) do
@@ -102,16 +94,16 @@ defmodule GatherContext.API.V2.Item do
       template_id: json["template_id"],
       structure_uuid: json["structure_uuid"],
       structure: Structure.build(json["structure"]),
-      position: json["position"] |> String.to_integer(),
+      position: json["position"],
       name: json["name"],
-      archived_by: json["archived_by"] |> String.to_integer(),
+      archived_by: json["archived_by"],
       archived_at: json["archived_at"],
       created_at: json["created_at"],
       updated_at: json["updated_at"],
       next_due_at: json["next_due_at"],
       completed_at: json["completed_at"],
-      assigned_user_ids: json["assigned_user_ids"] |> Enum.map(&String.to_integer/1),
-      assignee_count: json["assignee_count"] |> String.to_integer(),
+      assigned_user_ids: json["assigned_user_ids"],
+      assignee_count: json["assignee_count"],
       content: json["content"]
     }
   end
