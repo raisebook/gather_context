@@ -36,7 +36,7 @@ defmodule GatherContext.Types.V2.Fields.RadioSpec do
     subject(do: Radio.encode(element()))
 
     it "encodes type" do
-      expect(subject()[:type]) |> to(eq("radio"))
+      expect(subject()[:type]) |> to(eq("choice_radio"))
     end
 
     describe "when uuid" do

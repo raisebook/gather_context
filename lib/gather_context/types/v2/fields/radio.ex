@@ -3,7 +3,7 @@ defmodule GatherContext.Types.V2.Fields.Radio do
   alias GatherContext.Types.V2.Fields.{Field, Radio}
   alias GatherContext.Types.V2.Fields.Radio.Metadata
 
-  type("radio")
+  type("choice_radio")
 
   fields([:metadata])
 
