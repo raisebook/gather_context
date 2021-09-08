@@ -85,7 +85,7 @@ end
 defmodule GatherContext.Types.V2.Fields.Radio.Option do
   alias GatherContext.Types.V2.Fields.Radio.Option
 
-  defstruct options_id: [],
+  defstruct optionId: [],
             label: nil
 
   def encode(nil) do
@@ -97,7 +97,7 @@ defmodule GatherContext.Types.V2.Fields.Radio.Option do
   end
 
   def build(data) do
-    %Option{options_id: data["options_id"], label: data["label"]}
+    %Option{optionId: data["optionId"], label: data["label"]}
   end
 end
 

@@ -16,7 +16,7 @@ defmodule GatherContext.Types.V2.Fields.CheckboxSpec do
         choice_fields: %ChoiceFields{
           options: [
             %Option{
-              options_id: "00000000-0000-0000-0000-000000000000",
+              optionId: "00000000-0000-0000-0000-000000000000",
               label: "label"
             }
           ]
@@ -112,7 +112,7 @@ defmodule GatherContext.Types.V2.Fields.CheckboxSpec do
                     choice_fields: %ChoiceFields{
                       options: [
                         %Option{
-                          options_id: "00000000-0000-0000-0000-000000000000",
+                          optionId: "00000000-0000-0000-0000-000000000000",
                           label: "label"
                         }
                       ]
@@ -122,9 +122,7 @@ defmodule GatherContext.Types.V2.Fields.CheckboxSpec do
 
                 it "encodes the options" do
                   expect(subject()[:metadata][:choice_fields][:options])
-                  |> to(
-                    eq([%{options_id: "00000000-0000-0000-0000-000000000000", label: "label"}])
-                  )
+                  |> to(eq([%{optionId: "00000000-0000-0000-0000-000000000000", label: "label"}]))
                 end
               end
 
