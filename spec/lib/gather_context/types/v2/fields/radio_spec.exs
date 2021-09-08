@@ -16,7 +16,7 @@ defmodule GatherContext.Types.V2.Fields.RadioSpec do
         choice_fields: %ChoiceFields{
           options: [
             %Option{
-              options_id: "00000000-0000-0000-0000-000000000000",
+              optionId: "00000000-0000-0000-0000-000000000000",
               label: "label"
             }
           ]
@@ -112,7 +112,7 @@ defmodule GatherContext.Types.V2.Fields.RadioSpec do
                     choice_fields: %ChoiceFields{
                       options: [
                         %Option{
-                          options_id: "00000000-0000-0000-0000-000000000000",
+                          optionId: "00000000-0000-0000-0000-000000000000",
                           label: "label"
                         }
                       ]
@@ -122,9 +122,7 @@ defmodule GatherContext.Types.V2.Fields.RadioSpec do
 
                 it "encodes the options" do
                   expect(subject()[:metadata][:choice_fields][:options])
-                  |> to(
-                    eq([%{options_id: "00000000-0000-0000-0000-000000000000", label: "label"}])
-                  )
+                  |> to(eq([%{optionId: "00000000-0000-0000-0000-000000000000", label: "label"}]))
                 end
               end
 
@@ -152,7 +150,7 @@ defmodule GatherContext.Types.V2.Fields.RadioSpec do
                     choice_fields: %ChoiceFields{
                       options: [
                         %Option{
-                          options_id: "00000000-0000-0000-0000-000000000000",
+                          optionId: "00000000-0000-0000-0000-000000000000",
                           label: "label"
                         }
                       ]
@@ -172,12 +170,12 @@ defmodule GatherContext.Types.V2.Fields.RadioSpec do
                     choice_fields: %ChoiceFields{
                       options: [
                         %Option{
-                          options_id: "00000000-0000-0000-0000-000000000000",
+                          optionId: "00000000-0000-0000-0000-000000000000",
                           label: "label"
                         }
                       ],
                       other_options: %Option{
-                        options_id: "00000001-0000-0000-0000-000000000000",
+                        optionId: "00000001-0000-0000-0000-000000000000",
                         label: "label 2"
                       }
                     }
@@ -188,7 +186,7 @@ defmodule GatherContext.Types.V2.Fields.RadioSpec do
                   expect(subject()[:metadata][:choice_fields][:other_options])
                   |> to(
                     eq(%{
-                      options_id: "00000001-0000-0000-0000-000000000000",
+                      optionId: "00000001-0000-0000-0000-000000000000",
                       label: "label 2"
                     })
                   )
