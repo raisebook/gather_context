@@ -18,7 +18,8 @@ defmodule GatherContext.Types.V2.Item do
             completed_at: nil,
             assigned_user_ids: [],
             assignee_count: nil,
-            content: nil
+            content: nil,
+            status_name: nil
 
   def encode(data = %Item{}) do
     data
