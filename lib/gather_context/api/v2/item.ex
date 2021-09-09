@@ -10,7 +10,7 @@ defmodule GatherContext.API.V2.Item do
 
   def all(client, %Project{id: project_id}) do
     with {:ok, results} <-
-           client |> Client.get("/projects/#{project_id}/items?include?include=status_name"),
+           client |> Client.get("/projects/#{project_id}/items?include=status_name"),
          items <- results |> Enum.map(&build(&1)) do
       {:ok, items}
     else
